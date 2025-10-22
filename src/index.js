@@ -5,9 +5,14 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
+window.onerror = function (message, source, lineno, colno, error) {
+  console.error("Global Error Caught:", { message, source, lineno, colno, error });
+};
+
 root.render(
-  <React.StrictMode>
-    <App />
+  <React.StrictMode>    
+      <App />    
   </React.StrictMode>
 );
 

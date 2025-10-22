@@ -1,25 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
-function App() {
+import Navbar from './components/Navbar'
+import Footer from './components/Footer'
+import ProductsMain from './pages/ProductsMain'
+import HomePage from './pages/HomePage'
+import ProductDetail from './pages/ProductDetail'
+import AboutUs from './pages/AboutUs'
+import AuthPage from './pages/AuthPage'
+import Profile from './components/AccountData'
+import AdminProtectedRoute from './components/AdminProtectedRoute'
+import ProductCMS from './pages/ProductsCMS'
+
+export default function App(){
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+    <Router>          
+      <Navbar />        
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/productsMain" element={<ProductsMain />} />
+        <Route path="/product/:id" element={<ProductDetail />} />
+        <Route path="/AuthPage" element={<AuthPage />} />
+        <Route path="/AboutUs" element={<AboutUs />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/admin/products" element={<AdminProtectedRoute><ProductCMS /></AdminProtectedRoute>} />
+      </Routes>
 
-export default App;
+      <Footer />
+    </Router>
+  )
+}
