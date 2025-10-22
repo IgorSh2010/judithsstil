@@ -1,4 +1,4 @@
-const API_URL = "https://129.159.28.206:4000/api"; // твій бекенд
+const API_URL = "https://129.159.28.206/api"; // твій бекенд
 
 
 export async function checkToken() {
