@@ -1,6 +1,6 @@
 import api from "./axios";
 
-//onst API_URL = "https://129.159.28.206:4000/api";  
+//onst API_URL = "https://129.159.28.206:4000/api";      
 
 /* export async function registerUser(data) {
   // const res = await fetch(`${API_URL}/register`, {
