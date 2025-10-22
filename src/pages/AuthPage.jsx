@@ -16,7 +16,6 @@ export default function AuthPage() {
 
   const handleLogin = async (e) => {
     e.preventDefault()
-    console.log("Submitting login form...");
     const res = await loginUser(loginData)
     if (res.token) {
       sessionStorage.setItem("token", res.token);

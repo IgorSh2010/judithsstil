@@ -23,13 +23,15 @@ export async function registerUser(data) {
 }
 
 export async function loginUser(loginData) {
-  console.log("loginData:", loginData);
-
-  try {
-    const { data } = await api.post("/auth/login", loginData, {
+    try {
+    const { data } = await api.post("/auth/login", {
+      email: loginData.email,
+      password: loginData.password,
+      tenant: loginData.tenant,
+    }, {
       headers: { "Content-Type": "application/json" },
     });
-    console.log("✅ login response data:", data);
+    //console.log("✅ login response data:", data);
     sessionStorage.setItem("token", data.token);
     sessionStorage.setItem("refreshToken", data.refreshToken);
     return data;
