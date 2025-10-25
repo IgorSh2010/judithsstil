@@ -26,7 +26,7 @@ export default function AuthPage() {
     e.preventDefault()
     const res = await loginUser(loginData)
     if (res.token) {
-      sessionStorage.setItem("token", res.token);
+      localStorage.setItem("token", res.token);
       navigate("/");
       window.location.reload();
       setToast({ show: true, message: "✅ Zalogowano pomyślnie!", type: "success" });

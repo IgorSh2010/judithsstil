@@ -19,7 +19,7 @@ export default function SiteSettings() {
     const formData = new FormData();
     formData.append("image", file);
     formData.append("type", type);
-
+    
     try {
       const res = await uploadImage(formData);
 
@@ -66,10 +66,18 @@ export default function SiteSettings() {
                 const file = e.target.files[0];
                 if (!file) return;
                 setPreviewBanner(URL.createObjectURL(file));
-                handleUpload(file, "banner");
               }}
             />
-            <Button disabled={loading}>{loading ? "Wgrywanie..." : "Zaktualizuj"}</Button>
+            <Button 
+              onClick={(e) => {
+                e.preventDefault();
+                const fileInput = e.target.previousSibling;
+                const file = fileInput.files[0];
+                handleUpload(file, "banner");
+              }}
+              disabled={loading}>
+                {loading ? "Wgrywanie..." : "Zaktualizuj"}
+            </Button>
           </CardFooter>
         </Card>
 
@@ -97,10 +105,18 @@ export default function SiteSettings() {
                 const file = e.target.files[0];
                 if (!file) return;
                 setPreviewLogo(URL.createObjectURL(file));
-                handleUpload(file, "logo");
               }}
             />
-            <Button disabled={loading}>{loading ? "Wgrywanie..." : "Zaktualizuj"}</Button>
+            <Button 
+              onClick={(e) => {
+                e.preventDefault();
+                const fileInput = e.target.previousSibling;
+                const file = fileInput.files[0];
+                handleUpload(file, "logo");
+              }}
+              disabled={loading}>
+                {loading ? "Wgrywanie..." : "Zaktualizuj"}
+            </Button>
           </CardFooter>
         </Card>
       </div>

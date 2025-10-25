@@ -13,7 +13,7 @@ const raw = axios.create({
 // === Interceptor для access token ===
 api.interceptors.request.use(
   (config) => {
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
     if (token) config.headers.Authorization = `Bearer ${token}`;
     return config;
   },
@@ -30,21 +30,21 @@ api.interceptors.response.use(
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       try {
-        const refreshToken = sessionStorage.getItem("refreshToken");
+        const refreshToken = localStorage.getItem("refreshToken");
         if (!refreshToken) throw new Error("No refresh token");
 
         const { data } = await raw.post(`/auth/refresh-token`, {
           refreshToken,
         });
 
-        sessionStorage.setItem("token", data.newAccessToken);
+        localStorage.setItem("token", data.newAccessToken);
 
         // Повторити запит із новим токеном
         originalRequest.headers.Authorization = `Bearer ${data.newAccessToken}`;
         return api(originalRequest);
       } catch (err) {
         console.error("Refresh token error:", err);
-        sessionStorage.clear();
+        localStorage.clear();
         window.location.href = "/src/pages/AuthPage.jsx"; // Перенаправлення на сторінку входу
       }
     }

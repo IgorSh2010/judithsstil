@@ -4,7 +4,7 @@ export function useAuth() {
     const [user, setUser] = useState(null);
 
     useEffect(() => {
-    const token = sessionStorage.getItem("token")
+    const token = localStorage.getItem("token")
     if (!token) return
 
     try {
@@ -17,12 +17,12 @@ export function useAuth() {
       })
     } catch (e) {
       console.error("Invalid token:", e)
-      sessionStorage.removeItem("token")
+      localStorage.removeItem("token")
     }
   }, [])
 
   const logout = () => {
-    sessionStorage.сlear()
+    localStorage.сlear()
     window.location.href = "/"
     setUser(null)
   }

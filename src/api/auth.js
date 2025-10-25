@@ -16,8 +16,8 @@ export async function loginUser(loginData) {
     }, {
       headers: { "Content-Type": "application/json" },
     });
-    sessionStorage.setItem("token", data.token);
-    sessionStorage.setItem("refreshToken", data.refreshToken);
+    localStorage.setItem("token", data.token);
+    localStorage.setItem("refreshToken", data.refreshToken);
     return data;
   } catch (error) {
     console.error("❌ loginUser error:", error);
@@ -33,9 +33,9 @@ export async function loginUser(loginData) {
 }
 
 export async function logout() {
-  const refreshToken = sessionStorage.getItem("refreshToken");
+  const refreshToken = localStorage.getItem("refreshToken");
   if (refreshToken) {
     await api.post("/auth/logout", { refreshToken });
   }
-  sessionStorage.clear();
+  localStorage.clear();
 }
