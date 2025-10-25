@@ -1,8 +1,8 @@
 import { useState } from "react";
 import ConfirmModal from "./ConfirmModal";
-import Toast from "./Toast";
+import Toast from "./ui/Toast";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, ChevronRight, CheckCircle} from "lucide-react";
+import { ChevronLeft, ChevronRight, CheckCircle, Trash2} from "lucide-react";
 import { isAvailable, delProduct } from "../api/products";
 
 export default function ProductCardCMS({ product, onToggleAvailability, onDelete }) {
@@ -50,7 +50,7 @@ export default function ProductCardCMS({ product, onToggleAvailability, onDelete
     console.error("❌ Błąd zmiany dostępności:", err);
     setToast({ show: true, message: "❌ Błąd zmiany dostępności produktu.", type: "error" });
     // ⏳ Автоматично закривається через 2 секунди
-    setTimeout(() => setToast({ show: false, message: "" }), 3000);
+    setTimeout(() => setToast({ show: false, message: "" }), 4000);
   } finally {
     //setLoading(false);
   }
@@ -66,13 +66,13 @@ export default function ProductCardCMS({ product, onToggleAvailability, onDelete
         setTimeout(() => setShowConfirm(false), 400);
         setToast({ show: true, message: "✅ Produkt został usunięty!", type: "success" });
         // ⏳ Автоматично закривається через 2 секунди
-        setTimeout(() => setToast({ show: false, message: "" }), 3000);
+        setTimeout(() => setToast({ show: false, message: "" }), 4000);
       } 
     } catch (err) {
       console.error("❌ Błąd usuwania produktu:", err);
       setToast({ show: true, message: "❌ Błąd usuwania produktu.", type: "error" });
       // ⏳ Автоматично закривається через 2 секунди
-      setTimeout(() => setToast({ show: false, message: "" }), 3000);
+      setTimeout(() => setToast({ show: false, message: "" }), 4000);
     } finally {
       //setLoading(false);
     }
@@ -162,7 +162,7 @@ export default function ProductCardCMS({ product, onToggleAvailability, onDelete
               <button 
                 onClick={() => setShowConfirm(true)}
                 className="flex-1 h-11 bg-red-700 hover:bg-red-600 text-white rounded-lg shadow flex items-center justify-center transition">
-                
+                <Trash2 size={24} className="relative" />
                 Usuń
               </button>
             </div>

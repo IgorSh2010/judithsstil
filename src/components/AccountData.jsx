@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
 import { updateUser, me } from "../api/user";
 import { checkToken } from "../hooks/useMe";
-//import { toast } from "react-hot-toast";
+import Toast from "./ui/Toast";
 
 export default function AccountData() {
-  //const [userMe, setUserMe] = useState(null);
+  const [toast, setToast] = useState({ show: false, message: "", type: "success" });
   const [loading, setLoading] = useState(true);
-  const [message, setMessage] = useState("");
-  const [messageType, setMessageType] = useState(""); // 'success' lub 'error'
   const { isValidToken } = checkToken();
   const [formData, setFormData] = useState({
     username: "",
@@ -23,8 +21,6 @@ export default function AccountData() {
       try {
         setLoading(true);
         const data = await me();
-        console.log("Fetched userMe in AccountData:", data);
-        //setUserMe(data.user);
         // Заповнення форми отриманими даними
         if (data.user) {
           setFormData({
@@ -54,14 +50,17 @@ export default function AccountData() {
 
     // Просте підтвердження пароля
     if (formData.password && formData.password !== formData.confirmPassword) {
-      setMessage("Hasła nie są takie same");
-      setMessageType("error");
+      setToast({ show: true, message: "❌ Hasła nie są zgodne.", type: "error" });
+      // ⏳ Автоматично закривається через 4 секунди
+      setTimeout(() => setToast({ show: false, message: "" }), 4000);
       return;
     }
     console.log(isValidToken);    
     if (!isValidToken === "ok") {
-      setMessage("Twój token wygasł. Zaloguj się ponownie.");
-      setMessageType("error");
+      setToast({ show: true, message: "❌ Sesja wygasła. Zaloguj się ponownie.", type: "error" });
+      // ⏳ Автоматично закривається через 4 секунди
+      setTimeout(() => setToast({ show: false, message: "" }), 4000);
+
       localStorage.removeItem("token");
       window.location.href = "/AuthPage";
       return;
@@ -69,13 +68,16 @@ export default function AccountData() {
 
     try {
       await updateUser(formData);
-      setMessage("Dane zapisane pomyślnie!");
-      setMessageType("success");
+      setToast({ show: true, message: "✅ Dane zostały zaktualizowane.", type: "success" });
+      // ⏳ Автоматично закривається через 4 секунди
+      setTimeout(() => setToast({ show: false, message: "" }), 4000);
+
       setFormData({ ...formData, password: "", confirmPassword: "" });
     } catch (err) {
       console.error(err);
-      setMessage("Błąd podczas aktualizacji danych");
-      setMessageType("error");
+      setToast({ show: true, message: "❌ Błąd podczas aktualizacji danych.", type: "error" });
+      // ⏳ Автоматично закривається через 4 секунди
+      setTimeout(() => setToast({ show: false, message: "" }), 4000);
     }
   };
 
@@ -161,20 +163,7 @@ export default function AccountData() {
         </button>
       </form>
 
-      {message && (
-        <div className={`fixed bottom-10 left-1/2 transform -translate-x-1/2 text-white px-6 py-3
-                         rounded-full text-base shadow-lg flex items-center gap-3 animate-fade-in
-                         ${messageType === 'success' ? 'bg-green-600' : 'bg-rose-700'}`}>
-            <span>{message}</span>
-            <button
-            onClick={() => setMessage("")}
-            className="text-white text-xl leading-none hover:text-gray-200"
-            aria-label="Zamknij"
-            >
-            ×
-            </button>
-        </div>
-     )}
+      <Toast show={toast.show} message={toast.message} type={toast.type} />
     </div>
   );
 }

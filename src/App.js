@@ -10,6 +10,7 @@ import AuthPage from './pages/AuthPage'
 import Profile from './components/AccountData'
 import AdminProtectedRoute from './components/AdminProtectedRoute'
 import ProductCMS from './pages/ProductsCMS'
+import Settings from './pages/Settings'
 
 export default function App(){
   return (
@@ -23,6 +24,7 @@ export default function App(){
         <Route path="/AboutUs" element={<AboutUs />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/admin/products" element={<AdminProtectedRoute><ProductCMS /></AdminProtectedRoute>} />
+        <Route path="/admin/settings" element={<AdminProtectedRoute><Settings /></AdminProtectedRoute>} />
       </Routes>
 
       <Footer />

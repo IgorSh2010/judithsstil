@@ -22,20 +22,15 @@ export default function AccountDropdown({ logout }) {
   useEffect(() => {
     (async () => {
       try {
-        console.log("Fetching userMe in Dropdown...");
         const res = await me();
-        console.log("Fetched userMe in Dropdown:", res);
         setUserMe(res.user);
       } catch (err) {
         console.error("Error fetching userMe in Dropdown:", err);
       }
     })();
-
-    //fetchUserMe();
   }, []);
 
   const menuRef = useRef(null);
-  //console.log("UserMe in Dropdown:", userMe);
   // Закриття меню при кліку поза межами
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -77,14 +72,14 @@ export default function AccountDropdown({ logout }) {
                 <span className="block px-4 text-xs text-gray-400 uppercase">CMS</span>
                 <DropdownItem href="/admin/products" icon={<Package color="gold"/>}>Produkty</DropdownItem>
                 <DropdownItem href="/admin/prices" icon={<Tag color="gold"/>}>Ceny</DropdownItem>
-                <DropdownItem href="/admin/banner" icon={<Image color="gold"/>}>Baner główny</DropdownItem>
+                <DropdownItem href="/admin/settings" icon={<Image color="gold"/>}>Baner główny i logo</DropdownItem>
 
-                <div className="border-t border-gray-200 my-2" />
+                {/* <div className="border-t border-gray-200 my-2" />
                 <span className="block px-4 text-xs text-gray-400 uppercase">Raporty</span>
                 <DropdownItem href="/admin/purchases" icon={<LayoutDashboard color="gold"/>}>Zakupy</DropdownItem>
                 <DropdownItem href="/admin/sales" icon={<BarChart3 color="gold"/>}>Sprzedaż</DropdownItem>
                 <DropdownItem href="/admin/customers" icon={<Users color="gold"/>}>Klienci</DropdownItem>
-                <DropdownItem href="/admin/costs" icon={<DollarSign color="gold"/>}>Koszt własny</DropdownItem>
+                <DropdownItem href="/admin/costs" icon={<DollarSign color="gold"/>}>Koszt własny</DropdownItem> */}
               </>
             )}
 

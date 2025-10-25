@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { addProduct } from "../api/products";
-import Toast from "../components/Toast";
+import Toast from "./ui/Toast";
 
 export default function AddProduct({ onProductAdded }) {
   const [form, setForm] = useState({ name: "", description: "", price: "", images: [] });

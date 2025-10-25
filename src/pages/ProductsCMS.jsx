@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Toast from "../components/Toast";
+//import Toast from "../components/Toast";
 import { motion, AnimatePresence } from "framer-motion";
 import AddProduct from "../components/AddProduct";
 import ProductCard from "../components/ProductCardCMS";
@@ -9,7 +9,7 @@ export default function ProductsCMS() {
   const [showForm, setShowForm] = useState(false);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [toast, setToast] = useState({ show: false, message: "", type: "success" });
+  //const [toast, setToast] = useState({ show: false, message: "", type: "success" });
 
   const fetchProducts = async () => {
     try {
@@ -23,14 +23,14 @@ export default function ProductsCMS() {
     }
   };
 
-  const handleDeleteProduct = (deletedId) => {
+  /* const handleDeleteProduct = (deletedId) => {
   setProducts((prev) => prev.filter((p) => p.id !== deletedId));
-
+  
   setToast({ show: true, message: "✅ Produkt został usunięty!", type: "success" });
 
   // ⏳ Автоматично закривається через 2 секунди
   setTimeout(() => setToast({ show: false, message: "" }), 3000);
-  };
+  };  */
 
   useEffect(() => {
     fetchProducts();
@@ -88,7 +88,7 @@ export default function ProductsCMS() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.25 }}
                 >
-                  <ProductCard product={p} onDeleted={handleDeleteProduct}/>
+                  <ProductCard product={p} onDeleted={fetchProducts}/>
                 </motion.div>
               ))}
             </AnimatePresence>
@@ -100,7 +100,7 @@ export default function ProductsCMS() {
         </motion.div>
       )}
 
-      <Toast show={toast.show} message={toast.message} type={toast.type} />
+      {/* <Toast show={toast.show} message={toast.message} type={toast.type} /> */}
       
     </div>
   );

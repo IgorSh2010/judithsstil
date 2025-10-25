@@ -1,4 +1,4 @@
-import Hero from '../components/Hero'
+import Hero from '../components/ui/Hero'
 import ProductGrid from '../components/ProductGrid'
 import products from '../data/products'
 

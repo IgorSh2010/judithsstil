@@ -1,17 +1,25 @@
 import { useState } from "react"
 import { registerUser, loginUser } from "../api/auth"
 import { useNavigate } from "react-router-dom"
+import Toast from "../components/ui/Toast"
 
 export default function AuthPage() {
   const [registerData, setRegisterData] = useState({ email: "", password: "", tenant: "judithsstil" })
   const [loginData, setLoginData] = useState({ email: "", password: "", tenant: "judithsstil"  })
-  const [message, setMessage] = useState("")
+  const [toast, setToast] = useState({ show: false, message: "", type: "success" })
   const navigate = useNavigate()
 
   const handleRegister = async (e) => {
     e.preventDefault()
     const res = await registerUser(registerData)
-    setMessage(res.message || "Registered successfully!")
+    if (res.error) {
+      setToast({ show: true, message: `❌ Błąd rejestracji: ${res.error}`, type: "error" })
+      setTimeout(() => setToast({ show: false, message: "" }), 4000)
+      return
+    }
+    
+    setToast({ show: true, message: "✅ Rejestracja zakończona sukcesem! Teraz możesz się zalogować.", type: "success" })
+    setTimeout(() => setToast({ show: false, message: "" }), 4000)
   }
 
   const handleLogin = async (e) => {
@@ -21,9 +29,11 @@ export default function AuthPage() {
       sessionStorage.setItem("token", res.token);
       navigate("/");
       window.location.reload();
-      setMessage("Login successful!");
+      setToast({ show: true, message: "✅ Zalogowano pomyślnie!", type: "success" });
+      setTimeout(() => setToast({ show: false, message: "" }), 4000);
     } else {
-      setMessage(res.message || "Login failed")
+      setToast({ show: true, message: "❌ Błąd logowania. Sprawdź swoje dane.", type: "error" });
+      setTimeout(() => setToast({ show: false, message: "" }), 4000);
     }
   }
 
@@ -88,18 +98,7 @@ export default function AuthPage() {
         </div>
       </div>
 
-      {message && (
-        <div className="fixed bottom-10 left-1/2 transform -translate-x-1/2 bg-rose-700 text-white px-6 py-3 rounded-full text-base shadow-lg flex items-center gap-3 animate-fade-in">
-            <span>{message}</span>
-            <button
-            onClick={() => setMessage("")}
-            className="text-white text-xl leading-none hover:text-gray-200"
-            aria-label="Zamknij"
-            >
-            ×
-            </button>
-        </div>
-     )}
+      <Toast show={toast.show} message={toast.message} type={toast.type} />
     </div>
   )
 }

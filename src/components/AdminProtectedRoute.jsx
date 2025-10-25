@@ -12,7 +12,6 @@ const AdminProtectedRoute = ({ children }) => {
         setLoading(true);
         const data = await me();
         const userMe = data.user;
-        //console.log("UserMe in AdminProtectedRoute:", userMe);
         if (!userMe) {
           console.log("❌ Brak użytkownika (niezalogowany)");
           setAuthorized(false);

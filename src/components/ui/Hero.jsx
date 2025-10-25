@@ -1,5 +1,5 @@
 import React from 'react'
-import banner from '../assets/banner.jpg'
+//import banner from '/assets/banner.jpg'
 
 export default function Hero() {
   return (
@@ -7,7 +7,7 @@ export default function Hero() {
       {/* 🔹 Фонове зображення */}
       <div
         className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: `url(${banner})` }}
+        //style={{ backgroundImage: `url(${banner})` }}
       ></div>
 
       {/* 🔹 Напівпрозорий затемнюючий шар (градієнт) */}
