@@ -28,6 +28,8 @@ export default function AddProduct({ onProductAdded }) {
         setToast({ show: true, message: "✅ Produkt został dodany!", type: "success" });
         // ⏳ Автоматично закривається через 2 секунди
         setTimeout(() => setToast({ show: false, message: "" }), 3000);
+
+        window.location.reload();
       } 
       if (onProductAdded) onProductAdded();
       setForm({ name: "", description: "", price: "", images: [] });
