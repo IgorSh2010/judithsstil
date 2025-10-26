@@ -1,13 +1,28 @@
-import React from 'react'
-//import banner from '/assets/banner.jpg'
+import { useEffect, useState} from 'react'
+import { getBanner } from '../../api/public';
 
 export default function Hero() {
+  const [banner, setBanner] = useState();
+
+  useEffect(() => {
+    const fetchBanner = async () => {
+      try {
+        const bannerUrl = await getBanner();
+        setBanner(bannerUrl);
+      } catch (error) {
+        console.error("Błąd pobierania banera:", error);
+      }
+    };
+
+    fetchBanner();
+  }, []);
+
   return (
     <section className="relative h-[80vh] flex items-center justify-center text-center text-white overflow-hidden">
       {/* 🔹 Фонове зображення */}
       <div
         className="absolute inset-0 bg-cover bg-center"
-        //style={{ backgroundImage: `url(${banner})` }}
+        style={{ backgroundImage: `url(${banner})` }}
       ></div>
 
       {/* 🔹 Напівпрозорий затемнюючий шар (градієнт) */}

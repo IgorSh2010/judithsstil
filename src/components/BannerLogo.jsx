@@ -22,7 +22,8 @@ export default function SiteSettings() {
     
     try {
       const res = await uploadImage(formData);
-
+      window.location.reload();
+      
       setToast({ show: true, message: "✅ Obraz został wgrany!", type: "success" });
       // ⏳ Автоматично закривається через 2 секунди
       setTimeout(() => setToast({ show: false, message: "" }), 4000);

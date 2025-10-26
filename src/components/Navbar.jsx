@@ -3,12 +3,25 @@ import { Link } from "react-router-dom";
 import { useAuth } from '../hooks/useAuth';
 import AccountDropdown from "./AccountDropdown";
 import { ShoppingBag } from 'lucide-react';
+import { getLogo } from '../api/public';
 
 export default function Navbar() {
-    const logo = "/logo3-removebg-preview-2.png";
+    const [logo, setLogo] = useState();
     const [isScrolled, setIsScrolled] = useState(false);
     const itemsInCart = 2
     const { user, logout } = useAuth();
+
+    useEffect(() => {
+        const fetchLogo = async () => {
+            try { 
+                const logoUrl = await getLogo();
+                setLogo(logoUrl);
+            } catch (error) {
+                console.error("Error fetching logo:", error);
+            }
+        };
+        fetchLogo();
+    }, []);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -25,10 +38,10 @@ export default function Navbar() {
 
         {/* Лого та назва */}
         <Link to={`/`} className="max-w-7xl mx-auto flex flex-col items-center transition-all duration-500">
-        <div className="flex sm:flex-row items-center sm:space-x-4 ">
-          <img src={logo} alt="logo" className={`transition-all bg-gradient-to-b from-transparent to-gray-800 rounded-2xl duration-500
-                                                 ${isScrolled ? "h-0" : "h-20"}`}/>
-        </div>
+          <div className="flex sm:flex-row items-center sm:space-x-4 ">
+            <img src={logo} alt="logo" className={`transition-all bg-gradient-to-b from-transparent to-gray-800 rounded-2xl duration-500
+                                                  ${isScrolled ? "h-0" : "h-20"}`}/>
+          </div>
         </Link>
         
         {/* Навігація */}
