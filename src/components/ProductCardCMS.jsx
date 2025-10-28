@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import ConfirmModal from "./ConfirmModal";
 import Toast from "./ui/Toast";
 import { motion, AnimatePresence } from "framer-motion";
@@ -168,9 +169,12 @@ export default function ProductCardCMS({ product, onToggleAvailability, onDelete
             </div>
 
             {/* Кнопка Szczegóły */}
-            <button className="h-11 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg shadow w-full flex items-center justify-center">
-              Szczegóły
-            </button>
+            <Link
+              to={`/admin/products/${product.id}/edit`}
+              key={product}
+                className="h-11 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg shadow w-full flex items-center justify-center">
+              Edytuj
+            </Link>
           </div>
       </div>
 

@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
 import { useAuth } from '../hooks/useAuth';
 import AccountDropdown from "./AccountDropdown";
+import ProductsDropdown from './ProductsDropdown';
 import { ShoppingBag } from 'lucide-react';
 import { getLogo } from '../api/public';
 
 export default function Navbar() {
     const [logo, setLogo] = useState();
     const [isScrolled, setIsScrolled] = useState(false);
-    const itemsInCart = 2
+    //const itemsInCart = 2
     const { user, logout } = useAuth();
 
     useEffect(() => {
@@ -37,9 +38,9 @@ export default function Navbar() {
         ${isScrolled ? "bg-black/80 backdrop-blur-sm py-2" : "bg-gradient-to-b from-amber-700 to-white py-4"}`}>
 
         {/* Лого та назва */}
-        <Link to={`/`} className="max-w-7xl mx-auto flex flex-col items-center transition-all duration-500">
+        <Link to={`/`} className="mx-auto flex flex-col items-center transition-all duration-500">
           <div className="flex sm:flex-row items-center sm:space-x-4 ">
-            <img src={logo} alt="logo" className={`transition-all bg-gradient-to-b from-transparent to-gray-800 rounded-2xl duration-500
+            <img src={logo} alt="logo" className={`transition-all rounded-2xl duration-500
                                                   ${isScrolled ? "h-0" : "h-20"}`}/>
           </div>
         </Link>
@@ -49,7 +50,8 @@ export default function Navbar() {
             <nav className={`flex gap-6 text-sm font-semibold uppercase tracking-wide transition-opacity duration-500 
                             ${isScrolled ? "opacity-100 text-white" : "opacity-90 text-black"}`}>
                 <a className="hover:underline my-1" href="/">Strona Główna</a>
-                <a className="hover:underline my-1" href='/ProductsMain'>Produkty</a>
+                <ProductsDropdown />
+                {/* <a className="hover:underline my-1" href='/ProductsMain'>Produkty</a> */}
                 {/* <a className="hover:underline" href="#">Kolekcje</a> */}
                 <a className="hover:underline my-1" href='/AboutUs'>O nas</a>
                 
@@ -70,11 +72,12 @@ export default function Navbar() {
                   <ShoppingBag className="w-4 h-4" />
                   <span>Koszyk</span>
                 </button>
-                {itemsInCart > 0 && (
+
+                {/* {itemsInCart > 0 && (
                   <span className="absolute -top-1 -right-1 bg-red-700 text-white text-xs w-4 h-4 flex items-center justify-center rounded-full">
                     {itemsInCart}
                   </span>
-                )}            
+                )}  */}           
               </div>
             </div>
         </div>

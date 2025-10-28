@@ -1,7 +1,16 @@
 import axios from "axios";
 
+const isLocalhost =
+  typeof window !== "undefined" &&
+  (window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1");
+
+const API_URL = isLocalhost
+  ? "https://129.159.28.206/api"  // ← твій бекенд
+  : "/api";                       // ← продакшн через проксі
+
 //const API_URL = "https://129.159.28.206/api";
-const API_URL = "/api";
+//const API_URL = "/api";
 
 const api = axios.create({
   baseURL: API_URL,

@@ -11,6 +11,7 @@ import Profile from './components/AccountData'
 import AdminProtectedRoute from './components/AdminProtectedRoute'
 import ProductCMS from './pages/ProductsCMS'
 import Settings from './pages/Settings'
+import ProductEdit from './pages/ProductEdit'
 
 export default function App(){
   return (
@@ -25,6 +26,7 @@ export default function App(){
         <Route path="/profile" element={<Profile />} />
         <Route path="/admin/products" element={<AdminProtectedRoute><ProductCMS /></AdminProtectedRoute>} />
         <Route path="/admin/settings" element={<AdminProtectedRoute><Settings /></AdminProtectedRoute>} />
+        <Route path="/admin/products/:id/edit" element={<AdminProtectedRoute><ProductEdit /></AdminProtectedRoute>} />
       </Routes>
 
       <Footer />
