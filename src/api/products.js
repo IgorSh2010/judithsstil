@@ -9,6 +9,16 @@ export async function addProduct(formData) {
   return data;
 }
 
+export async function updateProduct(changedFields, id) {
+  try {
+    const res = await api.put(`/products/update/${id}`, changedFields);
+    return res.data;
+  } catch (err) {
+    console.error("❌ Błąd aktualizacji produktu:", err);
+    throw err;
+  }
+}
+
 export async function getProducts() {
   const { data } = await api.get("/products/get");
   return data;

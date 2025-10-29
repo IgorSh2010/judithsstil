@@ -35,12 +35,12 @@ export default function Navbar() {
 
   return (
     <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 
-        ${isScrolled ? "bg-black/80 backdrop-blur-sm py-2" : "bg-gradient-to-b from-amber-700 to-white py-4"}`}>
+        ${isScrolled ? "bg-black/80 backdrop-blur-sm py-2" : "bg-gradient-to-b from-amber-700 to-orange-100 py-4"}`}>
 
         {/* Лого та назва */}
         <Link to={`/`} className="mx-auto flex flex-col items-center transition-all duration-500">
           <div className="flex sm:flex-row items-center sm:space-x-4 ">
-            <img src={logo} alt="logo" className={`transition-all rounded-2xl duration-500
+            <img src={logo} alt="logo" className={`w-auto transition-all rounded-2xl duration-500
                                                   ${isScrolled ? "h-0" : "h-20"}`}/>
           </div>
         </Link>

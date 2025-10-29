@@ -89,22 +89,22 @@ export default function ProductsCMS() {
                   initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.25 }}
-                  className="bg-[#141414] border border-gray-800 rounded-xl shadow-md hover:shadow-lg hover:border-[#d4af37]/60 transition-all p-4 flex flex-col justify-between"
+                  //className="bg-[#141414] border border-gray-800 rounded-xl shadow-md hover:shadow-lg hover:border-[#d4af37]/60 transition-all p-4 flex flex-col justify-between"
                 >
                   {/* Preview card */}
                   <ProductCard product={p} onDeleted={fetchProducts} />
 
-                  {/* Buttons */}
+                  {/* {/* Buttons 
                   <div className="flex justify-between items-center mt-3 border-t border-gray-800 pt-3">
                     <span className="text-sm text-gray-400">
                       ID: {p.id}
                     </span>
                     
-                      {/* className="px-3 py-1.5 text-sm bg-[#d4af37] text-black font-semibold rounded-lg hover:bg-[#e6c34d] transition-all"
+                      className="px-3 py-1.5 text-sm bg-[#d4af37] text-black font-semibold rounded-lg hover:bg-[#e6c34d] transition-all"
                     >
                       ✏️ Edytuj
-                    </Link> */}
-                  </div>
+                    </Link>
+                  </div> */}
                 </motion.div>
               ))}
             </AnimatePresence>

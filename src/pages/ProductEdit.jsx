@@ -1,26 +1,53 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getProductByID} from "../api/public";
+import { updateProduct} from "../api/products";
 import { Button } from "../components/ui/Button";
 import { Plus, Trash2, Upload } from "lucide-react";
+import Toast from "../components/ui/Toast";
 
-export default function ProductEdit() {
-  const { product } = useParams();
+function getChangedFields(original, updated) {
+  const changes = {};
+  for (const key in updated) {
+    const originalValue = original[key];
+    const newValue = updated[key];
+
+    // Якщо значення змінилось
+    if (JSON.stringify(originalValue) !== JSON.stringify(newValue)) {
+      changes[key] = newValue;
+    }
+  }
+  return changes;
+}
+
+export default function ProductEdit({onProductUpdated}) {
+  const { id } = useParams();
   const navigate = useNavigate();
   const fileInputRef = useRef();
-  const [Changedproduct, setProduct] = useState(null);
+  const [product, setProduct] = useState(null);
+  const [initialProduct, setInitialProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [newImage, setNewImage] = useState(null);
+  const [toast, setToast] = useState({ show: false, message: "", type: "success" });
 
   const availableSizes = ["XS", "S", "M", "L", "XL", "ONESIZE"];
 
-   /* useEffect(() => {
-    const { data } = await getProductByID()
-      .then((res) => setProduct(res.data))
-      .catch((err) => console.error("Błąd wczytywania produktu:", err))
-      .finally(() => setLoading(false));
-  }, [id]); */
+    useEffect(() => {
+    const fetchProducts = async () => {
+        try {
+          const data = await getProductByID(id);
+          setProduct(data);
+          setInitialProduct(data);
+        } catch (err) {
+          console.error("❌ Błąd pobierania produktów:", err);
+        } finally {
+          setLoading(false);
+        }
+      };
+      
+      fetchProducts();
+      }, [id]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -62,10 +89,24 @@ export default function ProductEdit() {
   };
 
   const handleSave = async () => {
+    if (!product || !initialProduct) return;
+    const changedFields = getChangedFields(initialProduct, product);
+
+    if (Object.keys(changedFields).length === 0) {
+      setToast({ show: true, message: "🔹 Brak zmian do zapisania.", type: "error" });
+      setTimeout(() => setToast({ show: false, message: "" }), 4000);
+    return;
+  }
     setSaving(true);
     try {
-      //await axios.put(`/api/products/${id}`, product);
-      navigate("/admin/products");
+      const res = await updateProduct(changedFields, product.id);
+         if (res.message !== "") {
+            setToast({ show: true, message: "✅ Produkt został zaktualizowany!", type: "success" });
+            setTimeout(() => setToast({ show: false, message: "" }), 4000);
+
+            //window.location.reload();
+        } 
+        if (onProductUpdated) onProductUpdated();
     } catch (err) {
       console.error("Błąd zapisu:", err);
     } finally {
@@ -85,9 +126,9 @@ export default function ProductEdit() {
     ); 
 
   return (
-    <div className="max-w-4xl mx-auto bg-[#0f0f0f] text-gray-200 p-6 rounded-xl border border-gray-800 shadow-md mt-6">
+    <div className="max-w-4xl mx-auto bg-[#0f0f0f] text-gray-200 p-6 rounded-xl border border-gray-800 shadow-md mt-36 mb-4">
       <h1 className="text-2xl font-bold text-[#d4af37] mb-4">
-        ✏️ Edytuj produkt
+        Edycja produktu: {product?.name} (ID: {product?.id})
       </h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -98,7 +139,7 @@ export default function ProductEdit() {
             type="text"
             name="name"
             value={product.name || ""}
-            //onChange={handleChange}
+            onChange={handleChange}
             className="w-full bg-gray-900 text-gray-100 border border-gray-700 rounded-lg p-2 focus:ring-2 focus:ring-[#d4af37]"
           />
         </div>
@@ -110,7 +151,7 @@ export default function ProductEdit() {
             type="number"
             name="price"
             value={product.price || ""}
-            //onChange={handleChange}
+            onChange={handleChange}
             className="w-full bg-gray-900 text-gray-100 border border-gray-700 rounded-lg p-2 focus:ring-2 focus:ring-[#d4af37]"
           />
         </div>
@@ -122,7 +163,7 @@ export default function ProductEdit() {
             type="text"
             name="category"
             value={product.category || ""}
-            //onChange={handleChange}
+            onChange={handleChange}
             className="w-full bg-gray-900 text-gray-100 border border-gray-700 rounded-lg p-2 focus:ring-2 focus:ring-[#d4af37]"
           />
         </div> 
@@ -134,7 +175,7 @@ export default function ProductEdit() {
             name="description"
             rows="4"
             value={product.description || ""}
-            //onChange={handleChange}
+            onChange={handleChange}
             className="w-full bg-gray-900 text-gray-100 border border-gray-700 rounded-lg p-2 focus:ring-2 focus:ring-[#d4af37] resize-none"
           ></textarea>
         </div>
@@ -227,6 +268,8 @@ export default function ProductEdit() {
           {saving ? "Zapisywanie..." : "Zapisz zmiany"}
         </Button>
       </div>
+
+      <Toast show={toast.show} message={toast.message} type={toast.type} />
     </div>
   );
 }

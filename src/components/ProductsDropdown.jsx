@@ -12,7 +12,8 @@ export default function ProductsDropdown() {
     const fetchCategories = async () => {
       try {
         const data = await getCategories();
-        setCategories(data);
+        //console.log("categories", data.rows)
+        setCategories(data.rows);
       } catch (err) {
         console.error("Błąd pobierania kategorii:", err);
       }
@@ -31,7 +32,10 @@ export default function ProductsDropdown() {
   }, []);
 
   const handleSelect = (category) => {
-    navigate(`/ProductsMain?category=${category.slug}`);
+    if (category === "all")
+    {navigate(`/ProductsMain?category=all`);}
+    else
+    {navigate(`/ProductsMain?category=${category.slug}`)};
     setOpen(false);
   };
 
