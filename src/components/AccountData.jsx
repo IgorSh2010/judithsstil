@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { updateUser, me } from "../api/user";
-import { checkToken } from "../hooks/useMe";
+import { updateUser, me, checkToken } from "../api/user";
 import Toast from "./ui/Toast";
 
 export default function AccountData() {
@@ -54,8 +53,7 @@ export default function AccountData() {
       // ⏳ Автоматично закривається через 4 секунди
       setTimeout(() => setToast({ show: false, message: "" }), 4000);
       return;
-    }
-    console.log(isValidToken);    
+    }    
     if (!isValidToken === "ok") {
       setToast({ show: true, message: "❌ Sesja wygasła. Zaloguj się ponownie.", type: "error" });
       // ⏳ Автоматично закривається через 4 секунди

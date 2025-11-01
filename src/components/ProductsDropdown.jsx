@@ -1,18 +1,16 @@
 import { useEffect, useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
-import { getCategories } from "../api/public"
+import { Link } from "react-router-dom";
+import { getCategories } from "../api/public";
 
 export default function ProductsDropdown() {
   const [open, setOpen] = useState(false);
   const [categories, setCategories] = useState([]);
   const dropdownRef = useRef(null);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
         const data = await getCategories();
-        //console.log("categories", data.rows)
         setCategories(data.rows);
       } catch (err) {
         console.error("Błąd pobierania kategorii:", err);
@@ -31,14 +29,6 @@ export default function ProductsDropdown() {
     return () => document.removeEventListener("click", handleClickOutside);
   }, []);
 
-  const handleSelect = (category) => {
-    if (category === "all")
-    {navigate(`/ProductsMain?category=all`);}
-    else
-    {navigate(`/ProductsMain?category=${category.slug}`)};
-    setOpen(false);
-  };
-
   return (
     <div className="relative" ref={dropdownRef}>
       <button
@@ -51,20 +41,25 @@ export default function ProductsDropdown() {
       {open && (
         <div className="absolute z-50 mt-2 w-52 text-black bg-white border border-gray-200 rounded-xl shadow-xl animate-fadeIn">
           <ul className="py-1">
-            <li
-              onClick={() => handleSelect("all")}
-              className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm"
-            >
-              Wszystkie produkty
+            <li>
+              <Link
+                to={`/ProductsMain?category=all`}
+                className="block px-4 py-2 hover:bg-gray-100 text-sm"
+                onClick={() => setOpen(false)}
+              >
+                Wszystkie produkty
+              </Link>
             </li>
             <hr className="my-1 border-gray-100" />
             {categories.map((cat) => (
-              <li
-                key={cat.id}
-                onClick={() => handleSelect(cat)}
-                className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm capitalize"
-              >
-                {cat.name}
+              <li key={cat.id}>
+                <Link
+                  to={`/ProductsMain?category=${cat.slug}`}
+                  className="block px-4 py-2 hover:bg-gray-100 text-sm capitalize"
+                  onClick={() => setOpen(false)}
+                >
+                  {cat.name}
+                </Link>
               </li>
             ))}
           </ul>

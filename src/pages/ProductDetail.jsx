@@ -15,7 +15,6 @@ export default function ProductDetail() {
     const fetchProduct = async () => {
       try {
         const data = await getProductByID(id);
-        console.log("✅ product:", data);
         setProduct(data);
       } catch (err) {
         console.error("❌ Błąd pobierania produktu:", err);
@@ -97,21 +96,22 @@ export default function ProductDetail() {
       <div className="flex flex-col justify-center">
         <h1 className="text-3xl font-bold text-[#d4af37] mb-3">{product.name}</h1>
         <p className="text-gray-400 text-sm mb-1">{product.category}</p>
-        <div className="text-2xl font-bold mb-4 text-[#d4af37]">{product.price} zł</div>
-
-        <span
-          className={`inline-block mb-5 text-xs font-medium px-3 py-1 rounded-full border ${
-            Available
-              ? "bg-[#d4af37]/20 border-[#d4af37] text-[#d4af37]"
-              : "bg-rose-900/30 border-rose-700 text-rose-400"
-          }`}
-        >
-          {Available ? "Dostępny" : "Niedostępny"}
-        </span>
+        <div className="flex items-center justify-between mb-4">
+          <div className="text-2xl font-bold text-[#d4af37]">{product.price} zł</div>
+          <span
+            className={`text-xs font-medium px-3 py-1 rounded-full border ${
+              Available
+                ? "bg-[#d4af37]/20 border-[#d4af37] text-[#d4af37]"
+                : "bg-rose-900/30 border-rose-700 text-rose-400"
+            }`}
+          >
+            {Available ? "Dostępny" : "Niedostępny"}
+          </span>
+        </div>
 
         <p className="text-gray-300 mb-8 leading-relaxed">
           {product.description ||
-            "Opis produktu wkrótce dostępny. Wyjątkowa jakość i polska produkcja."}
+            "Opis produktu wkrótce dostępny. Ale odrazu guarantujemy wyjątkową jakość i polska produkcja."}
         </p>
 
         <div className="flex flex-wrap gap-2 mb-6">

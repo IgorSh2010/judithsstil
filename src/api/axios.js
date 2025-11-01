@@ -14,10 +14,12 @@ const API_URL = isLocalhost
 
 const api = axios.create({
   baseURL: API_URL,
+  withCredentials: true,
 });
 
 const raw = axios.create({
   baseURL: API_URL,
+  withCredentials: true,
 });
 
 // === Interceptor для access token ===
@@ -35,27 +37,23 @@ api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
-
     // Якщо токен прострочений (401) і ще не оновлювали
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    if (error.response?.status === 401 && !originalRequest._retry) { 
+      console.log("status-----", error.response?.status)
       originalRequest._retry = true;
       try {
-        const refreshToken = localStorage.getItem("refreshToken");
-        if (!refreshToken) throw new Error("No refresh token");
 
-        const { data } = await raw.post(`/auth/refresh-token`, {
-          refreshToken,
-        });
+        const { data } = await raw.post(`/auth/refresh-token`);
 
-        localStorage.setItem("token", data.newAccessToken);
+        localStorage.setItem("token", data.token);
 
         // Повторити запит із новим токеном
-        originalRequest.headers.Authorization = `Bearer ${data.newAccessToken}`;
+        originalRequest.headers.Authorization = `Bearer ${data.token}`;
         return api(originalRequest);
       } catch (err) {
         console.error("Refresh token error:", err);
         localStorage.clear();
-        window.location.href = "/src/pages/AuthPage.jsx"; // Перенаправлення на сторінку входу
+        window.location.href = "/"; // Перенаправлення на сторінку входу
       }
     }
 

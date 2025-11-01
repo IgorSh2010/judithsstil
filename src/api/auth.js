@@ -13,29 +13,28 @@ export async function loginUser(loginData) {
       email: loginData.email,
       password: loginData.password,
       tenant: loginData.tenant,
-    }, {
+    }, 
+    {
       headers: { "Content-Type": "application/json" },
+      withCredentials: true,
     });
+
     localStorage.setItem("token", data.token);
-    localStorage.setItem("refreshToken", data.refreshToken);
+
     return data;
   } catch (error) {
     console.error("❌ loginUser error:", error);
-    if (error.response) {
-      console.error("Response error:", error.response);
-    } else if (error.request) {
-      console.error("Request error:", error.request);
-    } else {
-      console.error("Config error:", error.message);
-    }
     throw error;
   }
 }
 
 export async function logout() {
-  const refreshToken = localStorage.getItem("refreshToken");
-  if (refreshToken) {
-    await api.post("/auth/logout", { refreshToken });
+  try {
+    await api.post("/auth/logout"); 
+  } catch (err) {
+    console.error("Logout error:", err);
+  } finally {
+    localStorage.clear();
+    window.location.href = "/";
   }
-  localStorage.clear();
 }

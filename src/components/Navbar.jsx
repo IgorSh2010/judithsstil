@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
-import { useAuth } from '../hooks/useAuth';
+import { me } from '../api/user';
+import { logout } from '../api/auth';
 import AccountDropdown from "./AccountDropdown";
 import ProductsDropdown from './ProductsDropdown';
 import { ShoppingBag } from 'lucide-react';
@@ -10,8 +11,22 @@ export default function Navbar() {
     const [logo, setLogo] = useState();
     const [isScrolled, setIsScrolled] = useState(false);
     //const itemsInCart = 2
-    const { user, logout } = useAuth();
+    const [userMe, setUserMe] = useState(null);
 
+    useEffect(() => {
+      (async () => {
+        const token = localStorage.getItem("token");
+        if (token) {
+        try {
+          
+          const res = await me();
+          setUserMe(res.user);
+        } catch (err) {
+          console.error("Error fetching userMe in Dropdown:", err);
+        }
+      }})();
+    }, []);
+    
     useEffect(() => {
         const fetchLogo = async () => {
             try { 
@@ -55,8 +70,8 @@ export default function Navbar() {
                 {/* <a className="hover:underline" href="#">Kolekcje</a> */}
                 <a className="hover:underline my-1" href='/AboutUs'>O nas</a>
                 
-                {user ? (
-                    <AccountDropdown user={user} logout={logout} />
+                {userMe ? (
+                    <AccountDropdown user={userMe} logout={logout} />
                   )
                 : (
                   <>
