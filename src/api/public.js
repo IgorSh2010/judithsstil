@@ -28,7 +28,7 @@ export async function getCategories() {
 }
 
 export async function getProducts(category = "all") {
-  const data = await api.get(`/public/getProducts?category=${category}`); 
+  const data = await api.get(`/public/getProducts?category=${category}`);
   return data;
 }
 
