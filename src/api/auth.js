@@ -30,7 +30,7 @@ export async function loginUser(loginData) {
 
 export async function logout() {
   try {
-    await api.post("/auth/logout"); 
+    await api.post("/auth/logout", {}, { withCredentials: true }); 
   } catch (err) {
     console.error("Logout error:", err);
   } finally {
