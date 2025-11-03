@@ -39,12 +39,11 @@ api.interceptors.response.use(
     const originalRequest = error.config;
     // Якщо токен прострочений (401) і ще не оновлювали
     if (error.response?.status === 401 && !originalRequest._retry) { 
-      console.log("status-----", error.response?.status)
+      
       originalRequest._retry = true;
       try {
-
-        const { data } = await raw.post(`/auth/refresh-token`);
-
+        const { data } = await raw.post(`/auth/refresh-token`, {}, { withCredentials: true });
+        
         localStorage.setItem("token", data.token);
 
         // Повторити запит із новим токеном

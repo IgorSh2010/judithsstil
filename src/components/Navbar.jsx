@@ -17,12 +17,11 @@ export default function Navbar() {
       (async () => {
         const token = localStorage.getItem("token");
         if (token) {
-        try {
-          
-          const res = await me();
+        try {          
+          const res = await me();         
           setUserMe(res.user);
         } catch (err) {
-          console.error("Error fetching userMe in Dropdown:", err);
+          console.error(err);
         }
       }})();
     }, []);

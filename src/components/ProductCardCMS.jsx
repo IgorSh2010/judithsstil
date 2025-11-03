@@ -3,15 +3,15 @@ import { Link } from "react-router-dom";
 import ConfirmModal from "./ConfirmModal";
 import Toast from "./ui/Toast";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, ChevronRight, CheckCircle, Trash2} from "lucide-react";
-import { isAvailable, delProduct } from "../api/products";
+import { ChevronLeft, ChevronRight, Trash2} from "lucide-react";
+import { delProduct } from "../api/products";
 
 export default function ProductCardCMS({ product, onToggleAvailability, onDelete }) {
-  const [currentImage, setCurrentImage] = useState(0);
-  const [Available, setIsAvailable] = useState(product.is_available);
+  const [currentImage, setCurrentImage] = useState(0);  
   const [showConfirm, setShowConfirm] = useState(false);
   const [toast, setToast] = useState({ show: false, message: "", type: "success" });
   const images = product.images || [];
+  const Available = product.is_available;
 
   const nextImage = () => {
     setCurrentImage((prev) => (prev + 1) % images.length);
@@ -30,32 +30,6 @@ export default function ProductCardCMS({ product, onToggleAvailability, onDelete
       prevImage();
     }
   };
-
-  // ✅ Зміна доступності
-  const toggleAvailability = async () => {
-  try {
-    //setLoading(true);
-    const updated = !Available;
-
-    // Припустимо, твоя API функція приймає (productId, newStatus)
-    const res = await isAvailable(product.id, updated);
-
-    // Якщо бекенд повертає оновлений продукт або просто { success: true }
-    if (res.status === 200) {
-      setIsAvailable(updated);
-      if (onToggleAvailability) onToggleAvailability(product.id, updated);
-    } else {
-      throw new Error("Brak odpowiedzi z serwera");
-    }
-  } catch (err) {
-    console.error("❌ Błąd zmiany dostępności:", err);
-    setToast({ show: true, message: "❌ Błąd zmiany dostępności produktu.", type: "error" });
-    // ⏳ Автоматично закривається через 2 секунди
-    setTimeout(() => setToast({ show: false, message: "" }), 4000);
-  } finally {
-    //setLoading(false);
-  }
-};
 
 // 🗑️ Видалення товару
   const deleteProduct = async () => {
@@ -127,17 +101,41 @@ export default function ProductCardCMS({ product, onToggleAvailability, onDelete
       </div>
 
       <div className="p-4">
-        <div className="flex gap-2 w-full justify-between">
-          <h3 className="text-lg font-semibold text-gray-800 truncate">{product.title}</h3>
-          <span
-              className={`text-sm px-2 py-1 rounded-md ${
-                Available ? "bg-emerald-300 text-emerald-700" : "bg-rose-100 text-rose-700"
+        <div className="grid grid-cols-[1fr_auto] gap-4 w-full items-start">
+          {/* Ліва колонка */}
+          <div>
+            <h3 className="text-lg font-semibold text-black truncate">
+              {product.title}
+            </h3>
+            <p className="text-gray-400 text-sm line-clamp-2 mt-1">
+              {product.description}
+            </p>
+          </div>
+
+          {/* Права колонка */}
+          <div className="flex flex-col items-end gap-1">
+            <span
+              className={`text-sm px-3 py-1 rounded-md ${
+                Available
+                  ? "bg-emerald-300/20 text-emerald-700 border border-emerald-400/50"
+                  : "bg-rose-300/20 text-rose-400 border border-rose-400/50"
               }`}
             >
               {Available ? "Dostępny" : "Niedostępny"}
-          </span>
-        </div>  
-        <p className="text-gray-500 text-sm line-clamp-2">{product.description}</p>
+            </span>
+            {product.is_bestseller && (
+              <span className="inline-block bg-[#d4af37]/20 border border-[#d4af37] text-[#d4af37] text-sm font-semibold px-3 py-1 rounded-full">
+                ⭐ Bestseller
+              </span>
+            )}
+            {product.is_featured && (
+              <span className="inline-block bg-orange-500/20 border border-orange-500 text-orange-400 text-sm font-semibold px-3 py-1 rounded-full">
+                ✨ Polecany
+              </span>
+            )}            
+          </div>
+        </div>
+
         <div className="mt-3 flex items-center justify-between">
           <span className="text-xl font-bold text-emerald-600">
             {Number(product.price).toFixed(2)} zł
@@ -148,17 +146,13 @@ export default function ProductCardCMS({ product, onToggleAvailability, onDelete
           <div className="mt-4 flex flex-col gap-3 w-full">
             {/* Ряд з двома кнопками */}
             <div className="flex gap-2 w-full">
-              <button
-                onClick={toggleAvailability}
-                className={`flex-1 h-11 rounded-lg flex items-center justify-center gap-2 shadow transition ${
-                  Available
-                    ? "bg-indigo-600 hover:bg-indigo-800 text-white"
-                    : "bg-gray-300 hover:bg-gray-400 text-gray-700"
-                }`}
-              >
-                <CheckCircle size={24} className="relative left-2.5" />
-                {Available ? "Wyłącz dostępność" : "Włącz dostępność"}
-              </button>
+              {/* Кнопка Szczegóły */}
+              <Link
+                to={`/admin/products/${product.id}/edit`}
+                key={product}
+                  className="flex-1 h-11 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg shadow flex items-center justify-center transition">
+                Edytuj
+              </Link>
 
               <button 
                 onClick={() => setShowConfirm(true)}
@@ -168,13 +162,7 @@ export default function ProductCardCMS({ product, onToggleAvailability, onDelete
               </button>
             </div>
 
-            {/* Кнопка Szczegóły */}
-            <Link
-              to={`/admin/products/${product.id}/edit`}
-              key={product}
-                className="h-11 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg shadow w-full flex items-center justify-center">
-              Edytuj
-            </Link>
+            
           </div>
       </div>
 

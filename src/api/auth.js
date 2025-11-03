@@ -3,7 +3,9 @@ import api from "./axios";
 export async function registerUser(data) {
   const { data: resData } = await api.post("/auth/register", data, {
     headers: { "Content-Type": "application/json" },
+    withCredentials: true,
   });
+  localStorage.setItem("token", resData.token);
   return resData;
 }
 

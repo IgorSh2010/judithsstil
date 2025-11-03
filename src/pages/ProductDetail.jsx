@@ -98,15 +98,27 @@ export default function ProductDetail() {
         <p className="text-gray-400 text-sm mb-1">{product.category}</p>
         <div className="flex items-center justify-between mb-4">
           <div className="text-2xl font-bold text-[#d4af37]">{product.price} zł</div>
-          <span
-            className={`text-xs font-medium px-3 py-1 rounded-full border ${
-              Available
-                ? "bg-[#d4af37]/20 border-[#d4af37] text-[#d4af37]"
-                : "bg-rose-900/30 border-rose-700 text-rose-400"
-            }`}
-          >
-            {Available ? "Dostępny" : "Niedostępny"}
-          </span>
+          <div>          
+            {product.is_bestseller && (
+              <span className="inline-block bg-[#d4af37]/20 border border-[#d4af37] text-[#d4af37] text-xs font-semibold px-3 py-1 rounded-full">
+                ⭐ Bestseller
+              </span>
+            )}
+            {product.is_featured && (
+              <span className="inline-block bg-orange-500/20 border border-orange-500 text-orange-400 text-xs font-semibold px-3 py-1 rounded-full">
+                ✨ Polecany
+              </span>
+            )}
+            <span
+              className={`text-xs font-medium px-3 py-1 rounded-full border ${
+                Available
+                  ? "bg-[#d4af37]/20 border-[#d4af37] text-[#d4af37]"
+                  : "bg-rose-900/30 border-rose-700 text-rose-400"
+              }`}
+            >
+              {Available ? "Dostępny" : "Niedostępny"}
+            </span>  
+          </div>        
         </div>
 
         <p className="text-gray-300 mb-8 leading-relaxed">

@@ -69,6 +69,18 @@ export default function ProductCard({ product }) {
         <div className="flex flex-col flex-grow p-4">
           <div className="flex justify-between items-start mb-2">
             <h3 className="text-lg font-semibold text-[#d4af37] truncate">{product.name}</h3>
+          </div>          
+          <div className="flex justify-end items-center gap-2 mb-2">            
+            {product.is_bestseller && (
+              <span className="inline-block bg-[#d4af37]/20 border border-[#d4af37] text-[#d4af37] text-xs font-semibold px-3 py-1 rounded-full">
+                ⭐ Bestseller
+              </span>
+            )}
+            {product.is_featured && (
+              <span className="inline-block bg-orange-500/20 border border-orange-500 text-orange-400 text-xs font-semibold px-3 py-1 rounded-full">
+                ✨ Polecany
+              </span>
+            )}
             <span
               className={`px-3 py-1 text-xs font-medium rounded-full border ${
                 Available

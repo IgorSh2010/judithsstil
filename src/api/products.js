@@ -11,7 +11,25 @@ export async function addProduct(formData) {
 
 export async function updateProduct(changedFields, id) {
   try {
-    const res = await api.put(`/products/update/${id}`, changedFields);
+    const formData = new FormData();
+
+    for (const key in changedFields) {
+      if (key !== "images") formData.append(key, changedFields[key]);
+    }
+
+    if (changedFields.images && changedFields.images.length > 0) {
+      Array.from(changedFields.images).forEach((file) =>
+        formData.append("images", file)
+      );
+    }
+
+    if (changedFields.removedImages && changedFields.removedImages.length > 0) {
+      formData.append("removedImages", JSON.stringify(changedFields.removedImages));
+    }
+    
+    const res = await api.put(`/products/update/${id}`, formData, {
+                          headers: { "Content-Type": "multipart/form-data" },
+                        });
     return res.data;
   } catch (err) {
     console.error("❌ Błąd aktualizacji produktu:", err);
@@ -22,14 +40,7 @@ export async function updateProduct(changedFields, id) {
 export async function getProducts() {
   const { data } = await api.get("/products/get");
   return data;
-}
-
-export async function isAvailable(productID, newStatus) {
-  const res = await api.put(`/products/${productID}/availability`, {
-    available: newStatus,
-  });
-  return res;
-}
+}  
 
 export async function delProduct(productID) {
   const res = await api.delete(`/products/${productID}`);

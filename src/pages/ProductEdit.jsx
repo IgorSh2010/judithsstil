@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { getProductByID} from "../api/public";
-import { updateProduct} from "../api/products";
+import { updateProduct } from "../api/products";
 import { Button } from "../components/ui/Button";
 import { Plus, Trash2, Upload } from "lucide-react";
 import Toast from "../components/ui/Toast";
@@ -28,10 +28,17 @@ export default function ProductEdit({onProductUpdated}) {
   const [initialProduct, setInitialProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [newImage, setNewImage] = useState(null);
+  const [form, setForm] = useState({  images: [] });
   const [toast, setToast] = useState({ show: false, message: "", type: "success" });
 
   const availableSizes = ["XS", "S", "M", "L", "XL", "ONESIZE"];
+
+    useEffect(() => {
+      return () => {
+        // Очистка створених об’єктних URL
+        form.images?.forEach((file) => URL.revokeObjectURL(file.preview));
+      };
+    }, [form.images]);
 
     useEffect(() => {
     const fetchProducts = async () => {
@@ -54,6 +61,27 @@ export default function ProductEdit({onProductUpdated}) {
     setProduct((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleFiles = (e) => {
+     const files = Array.from(e.target.files);
+
+      const previewUrls = files.map((file) => URL.createObjectURL(file));
+
+      // Додаємо прев’ю у відображення продукту
+      setProduct((prev) => ({
+        ...prev,
+        images: [...(prev.images || []), ...previewUrls],
+      }));
+
+      // Зберігаємо файли для відправки на бекенд
+      setForm((prev) => ({
+        ...prev,
+        images: [...(prev.images || []), ...files],
+      }));
+
+      // Очищаємо input (щоб можна було повторно вибирати ті ж самі файли)
+      e.target.value = "";
+  };
+
   const toggleSize = (size) => {
     setProduct((prev) => {
       const sizes = prev.sizes || [];
@@ -65,32 +93,42 @@ export default function ProductEdit({onProductUpdated}) {
     });
   };
 
-  const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    // Псевдо-завантаження — можна пізніше замінити на справжнє API
-    const reader = new FileReader();
-    reader.onload = () => {
-      setProduct((prev) => ({
-        ...prev,
-        images: [...(prev.images || []), reader.result],
-      }));
-      setNewImage(null);
-    };
-    reader.readAsDataURL(file);
-  };
-
   const removeImage = (index) => {
+    const removed = product.images[index];
+
     setProduct((prev) => ({
       ...prev,
       images: prev.images.filter((_, i) => i !== index),
     }));
+
+    // Якщо це не локальне прев’ю (тобто URL не з blob:), додаємо до removedImages
+    if (!removed.startsWith("blob:")) {
+      setForm((prev) => ({
+        ...prev,
+        removedImages: [...(prev.removedImages || []), removed],
+      }));
+    } else {
+      // Якщо це blob, потрібно також прибрати відповідний файл із form.images
+      setForm((prev) => ({
+        ...prev,
+        images: prev.images.filter(
+          (_, i) => i !== index - (product.images.length - prev.images.length)
+        ),
+      }));
+    }
   };
 
   const handleSave = async () => {
     if (!product || !initialProduct) return;
     const changedFields = getChangedFields(initialProduct, product);
+
+    if (form.images && form.images.length > 0) {
+    changedFields.images = form.images;
+  }
+
+    if (form.removedImages?.length > 0) {
+    changedFields.removedImages = form.removedImages;
+  }
 
     if (Object.keys(changedFields).length === 0) {
       setToast({ show: true, message: "🔹 Brak zmian do zapisania.", type: "error" });
@@ -99,12 +137,11 @@ export default function ProductEdit({onProductUpdated}) {
   }
     setSaving(true);
     try {
+      console.log("changedFields", changedFields)
       const res = await updateProduct(changedFields, product.id);
          if (res.message !== "") {
             setToast({ show: true, message: "✅ Produkt został zaktualizowany!", type: "success" });
             setTimeout(() => setToast({ show: false, message: "" }), 4000);
-
-            //window.location.reload();
         } 
         if (onProductUpdated) onProductUpdated();
     } catch (err) {
@@ -210,6 +247,36 @@ export default function ProductEdit({onProductUpdated}) {
           </div>
         </div>
 
+        {/* Statusy produktu */}
+        <div className="md:col-span-2 mt-4">
+          <label className="block text-sm mb-2 text-gray-400">Status produktu</label>
+          <div className="flex flex-wrap gap-6 bg-gray-900 border border-gray-700 rounded-lg p-4">
+            {[
+              { key: "is_available", label: "Dostępny" },
+              { key: "is_bestseller", label: "Bestseller" },
+              { key: "is_featured", label: "Polecany" },
+            ].map((item) => (
+              <label
+                key={item.key}
+                className="flex items-center gap-2 text-sm cursor-pointer text-gray-300 hover:text-[#d4af37]"
+              >
+                <input
+                  type="checkbox"
+                  checked={!!product[item.key]}
+                  onChange={(e) =>
+                    setProduct((prev) => ({
+                      ...prev,
+                      [item.key]: e.target.checked,
+                    }))
+                  }
+                  className="accent-[#d4af37] w-4 h-4 cursor-pointer"
+                />
+                <span>{item.label}</span>
+              </label>
+            ))}
+          </div>
+        </div>
+
         {/* Зображення */}
         <div className="md:col-span-2">
           <label className="block text-sm mb-2 text-gray-400">Zdjęcia</label>
@@ -243,8 +310,9 @@ export default function ProductEdit({onProductUpdated}) {
             <input
               type="file"
               accept="image/*"
+              multiple
               ref={fileInputRef}
-              onChange={handleImageUpload}
+              onChange={handleFiles}
               className="hidden"
             />
           </div>
@@ -252,23 +320,30 @@ export default function ProductEdit({onProductUpdated}) {
       </div>
 
       {/* Buttons */}
-      <div className="flex justify-end gap-3 mt-6">
-        <Button
-          onClick={() => navigate(-1)}
-          className="bg-gray-800 border border-gray-700 text-gray-300 hover:bg-gray-700 rounded-lg px-4 py-2 transition"
+      <div className="flex justify-between">
+        <Link
+          to="/admin/products"
+          className="mt-8 inline-block text-sm text-gray-400 hover:text-[#d4af37] transition-all"
         >
-          Anuluj
-        </Button>
+          ← Wróć do listy produktów
+        </Link>
+        <div className="flex  gap-3 mt-6">              
+          <Button
+            onClick={() => navigate(-1)}
+            className="bg-gray-800 border border-gray-700 text-gray-300 hover:bg-gray-700 rounded-lg px-4 py-2 transition"
+          >
+            Anuluj
+          </Button>
 
-        <Button
-          onClick={handleSave}
-          disabled={saving}
-          className="bg-[#d4af37] text-black font-semibold hover:bg-[#e6c34d] rounded-lg px-5 py-2 transition"
-        >
-          {saving ? "Zapisywanie..." : "Zapisz zmiany"}
-        </Button>
+          <Button
+            onClick={handleSave}
+            disabled={saving}
+            className="gap-2 bg-[#d4af37] text-black font-semibold hover:bg-[#e6c34d] rounded-lg px-5 py-2 transition"
+          >
+            <Upload size={20} /> {saving ? "Zapisywanie..." : "Zapisz zmiany"}
+          </Button>
+        </div>
       </div>
-
       <Toast show={toast.show} message={toast.message} type={toast.type} />
     </div>
   );
