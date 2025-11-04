@@ -11,7 +11,7 @@ export default function ProductsSidebar() {
     const fetchCategories = async () => {
       try {
         const data = await getCategories();
-        setCategories(data);
+        setCategories(data.rows);
       } catch (err) {
         console.error("Błąd pobierania kategorii:", err);
       }
@@ -19,31 +19,41 @@ export default function ProductsSidebar() {
     fetchCategories();
   }, []);
 
+  const handleCategoryClick = (slug) => {
+    setSearchParams({ category: slug });
+  };
+
   return (
-    <aside className="border-r border-gray-200 pr-4">
-      <h2 className="font-semibold mb-2 text-gray-800 text-sm uppercase tracking-wide">
+    <aside>
+      <h2 className="font-semibold mb-3 text-black text-sm uppercase tracking-wider">
         Kategorie
       </h2>
-      <ul className="space-y-1 text-sm">
+
+      <ul className="space-y-1.5">
+        {/* Wszystkie produkty */}
         <li
-          onClick={() => setSearchParams({ category: "all" })}
-          className={`cursor-pointer py-1.5 px-2 rounded-md ${
-            activeCategory === "all"
-              ? "bg-pink-100 text-pink-700 font-semibold"
-              : "hover:bg-gray-100 text-gray-700"
-          }`}
+          onClick={() => handleCategoryClick("all")}
+          className={`text-black cursor-pointer px-3 py-1 rounded-md transition-all duration-200 ease-in-out
+            ${
+              activeCategory === "all"
+                ? "bg-amber-200 font-semibold shadow-sm"
+                : "hover:bg-amber-200 text-black"
+            }`}
         >
           Wszystkie produkty
         </li>
+
+        {/* Dynamiczne kategorie */}
         {categories.map((cat) => (
           <li
             key={cat.id}
-            onClick={() => setSearchParams({ category: cat.slug })}
-            className={`cursor-pointer py-1.5 px-2 rounded-md capitalize ${
-              activeCategory === cat.slug
-                ? "bg-pink-100 text-pink-700 font-semibold"
-                : "hover:bg-gray-100 text-gray-700"
-            }`}
+            onClick={() => handleCategoryClick(cat.slug)}
+            className={`cursor-pointer px-3 py-1 rounded-md capitalize transition-all duration-200 ease-in-out
+              ${
+                activeCategory === cat.slug
+                  ? "bg-amber-200 font-semibold shadow-sm"
+                : "hover:bg-amber-200 text-black"
+              }`}
           >
             {cat.name}
           </li>

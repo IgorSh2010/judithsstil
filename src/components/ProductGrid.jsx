@@ -36,7 +36,7 @@ export default function ProductGrid({ category = "all" }) {
     );
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 m-4">
+    <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-6 m-1">
       {products.map((p) => (
         <ProductCard key={p.id} product={p} />
       ))}

@@ -3,7 +3,7 @@ import FooterBadge from "./FooterBadge";
 
 export default function Footer(){
   return (
-    <footer className="bg-gray-900 text-gray-200">
+    <footer className="bg-neutral-900 border-t border-neutral-800 text-gray-200">
       <div className="grid max-w-7xl mx-auto px-4 py-2 md:grid-cols-4 gap-6">
         <div>
             <img src="/logo2.png" alt="Logo" className="h-25" />
@@ -49,7 +49,7 @@ export default function Footer(){
                 target="_blank"
                 rel="noopener noreferrer"
                 >
-                <img src="/Tiktok.png" alt="Tiktok" title="Śledź nas na TikTok" className="w-7 h-7" />
+                <img src="/TT.png" alt="Tiktok" title="Śledź nas na TikTok" className="w-7 h-7" />
                 </a>
             </div>
           </div>

@@ -28,7 +28,7 @@ export default function AuthPage() {
     if (res.token) {
       localStorage.setItem("token", res.token);
       navigate("/");
-      window.location.reload();
+      //window.location.reload();
       setToast({ show: true, message: "✅ Zalogowano pomyślnie!", type: "success" });
       setTimeout(() => setToast({ show: false, message: "" }), 4000);
     } else {

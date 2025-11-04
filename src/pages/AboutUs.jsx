@@ -43,7 +43,7 @@ export default function AboutUs() {
                 target="_blank"
                 rel="noopener noreferrer"
                 >
-                <img src="/Tiktok.png" alt="Tiktok" title="Śledź nas na TikTok" className="w-7 h-7" />
+                <img src="/TT.png" alt="Tiktok" title="Śledź nas na TikTok" className="w-7 h-7" />
                 </a>
             </div>
         </div>

@@ -24,3 +24,13 @@ export async function uploadImage(formData) {
   });
   return response.data;
 }
+
+export const getImage = async () => {
+  const res = await api.get("/users/get-image");
+  return res.data;
+};
+
+export const getClientOrder = async (id = "main") => {
+  const res = await api.get(`/users/client-order/${id}`);
+  return res.data;
+}; 

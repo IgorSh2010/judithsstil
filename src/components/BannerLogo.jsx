@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "./ui/Button";
 import { Card, CardHeader, CardContent, CardFooter } from "./ui/Card";
-import { uploadImage } from "../api/user";
+import { uploadImage, getImage } from "../api/user";
 import Toast from "./ui/Toast";
 
 export default function SiteSettings() {
@@ -11,6 +11,20 @@ export default function SiteSettings() {
   const [previewLogo, setPreviewLogo] = useState(null);
   const [toast, setToast] = useState({ show: false, message: "", type: "success" });
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchSettings = async () => {
+      try {
+        const res = await getImage();
+        setBanner(res.banner_url || null);
+        setLogo(res.logo_url || null);
+      } catch (err) {
+        console.error("❌ Błąd pobierania ustawień:", err);
+      }
+    };
+
+    fetchSettings();
+  }, []);
 
   const handleUpload = async (file, type) => {
     if (!file) return;
@@ -22,15 +36,21 @@ export default function SiteSettings() {
     
     try {
       const res = await uploadImage(formData);
-      window.location.reload();
+      const imageURL = res.data.url;
+      
+      if (type === "banner") {
+        setBanner(imageURL);
+        setPreviewBanner(null);
+      }
+      if (type === "logo") {
+        setLogo(imageURL);
+        setPreviewLogo(null);
+      }
       
       setToast({ show: true, message: "✅ Obraz został wgrany!", type: "success" });
       // ⏳ Автоматично закривається через 2 секунди
       setTimeout(() => setToast({ show: false, message: "" }), 4000);
-
-      const url = res.data.url;
-      if (type === "banner") setBanner(url);
-      if (type === "logo") setLogo(url);
+      
     } catch (err) {
       console.error("Upload error:", err);
     } finally {

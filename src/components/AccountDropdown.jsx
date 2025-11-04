@@ -61,9 +61,9 @@ export default function AccountDropdown({ logout }) {
         <div className="absolute right-0 mt-2 w-60 bg-white border border-gray-200 rounded-xl shadow-xl z-50 animate-fadeIn">
           <div className="py-2">
             {/* --- Користувацькі сторінки --- */}
-            <DropdownItem href="/profile" icon={<User color="gold"/>}>Dane konta</DropdownItem>
-            <DropdownItem href="/orders" icon={<ShoppingBag color="gold"/>}>Moje zamówienia</DropdownItem>
-            <DropdownItem href="/chat" icon={<MessageSquare color="gold"/>}>Czaty zamówień</DropdownItem>
+            <DropdownItem href="/profile" icon={<User color="gold"/>}> Dane konta</DropdownItem>
+            <DropdownItem href="/ClientsOrders" icon={<ShoppingBag color="gold"/>}> Moje zamówienia</DropdownItem>
+            <DropdownItem href="/chat" icon={<MessageSquare color="gold"/>}> Czaty zamówień</DropdownItem>
 
             {/* --- Для адміністратора --- */}
             {userMe?.role === "admin" && (

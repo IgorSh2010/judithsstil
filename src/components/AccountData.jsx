@@ -82,11 +82,11 @@ export default function AccountData() {
   if (loading) return <p className="text-center mt-10">Ładowanie...</p>;
 
   return (
-    <div className="max-w-3xl mx-auto p-8 bg-white shadow-lg rounded-lg mt-36 mb-10">
-      <h2 className="text-3xl font-bold mb-6 text-gray-800">Dane konta</h2>
+    <div className="w-full sm:max-w-3xl mx-auto p-8 bg-neutral-950 shadow-lg rounded-lg mt-36 mb-5">
+      <h2 className="text-3xl font-bold mb-6 text-amber-400">Dane konta</h2>
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <label className="block text-gray-700 font-medium mb-2">Imię i Nazwisko</label>
+          <label className="block text-amber-400 font-medium mb-2">Imię i Nazwisko</label>
           <input
             type="text"
             name="username"
@@ -97,7 +97,7 @@ export default function AccountData() {
         </div>
 
         <div>
-          <label className="block text-gray-700 font-medium mb-2">Email</label>
+          <label className="block text-amber-400 font-medium mb-2">Email</label>
           <input
             type="email"
             name="email"
@@ -108,7 +108,7 @@ export default function AccountData() {
         </div>
 
         <div>
-          <label className="block text-gray-700 font-medium mb-2">Numer telefonu</label>
+          <label className="block text-amber-400 font-medium mb-2">Numer telefonu</label>
           <input
             type="text"
             name="phone"
@@ -119,7 +119,7 @@ export default function AccountData() {
         </div>
 
         <div>
-          <label className="block text-gray-700 font-medium mb-2">Adres dostawy</label>
+          <label className="block text-amber-400 font-medium mb-2">Adres dostawy</label>
           <input
             type="text"
             name="adress"
@@ -130,7 +130,7 @@ export default function AccountData() {
         </div>
 
         <div>
-          <label className="block text-gray-700 font-medium mb-2">Nowe hasło</label>
+          <label className="block text-amber-400 font-medium mb-2">Nowe hasło</label>
           <input
             type="password"
             name="password"
@@ -142,7 +142,7 @@ export default function AccountData() {
         </div>
 
         <div>
-          <label className="block text-gray-700 font-medium mb-2">Powtórz hasło</label>
+          <label className="block text-amber-400 font-medium mb-2">Powtórz hasło</label>
           <input
             type="password"
             name="confirmPassword"
@@ -155,7 +155,7 @@ export default function AccountData() {
 
         <button
           type="submit"
-          className="w-full bg-amber-400 hover:bg-amber-500 text-white font-semibold py-3 rounded-lg transition-colors"
+          className="w-full bg-amber-400 hover:bg-amber-500 text-black text-base font-semibold py-3 rounded-lg transition-colors"
         >
           Zapisz zmiany
         </button>
