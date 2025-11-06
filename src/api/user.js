@@ -1,7 +1,7 @@
 import api from "./axios";
 
 export async function me() {
-  const { data } = await api.get("/me");
+  const { data } = await api.get("/users/me");
   return data;
 }
 

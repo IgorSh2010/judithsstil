@@ -7,7 +7,7 @@ import { Button } from './ui/Button';
 export default function ProductCard({ product }) {
   const [currentImage, setCurrentImage] = useState(0);
   const Available = product.is_available;
-  const images = product.images;
+  const images = product.images?.length ? product.images : ["/no_image.png"];
   const sizes = product.sizes || ["XS", "S", "M", "L", "XL", "ONESIZE"];
 
   const nextImage = () => setCurrentImage((prev) => (prev + 1) % images.length);

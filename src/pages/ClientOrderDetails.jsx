@@ -13,7 +13,6 @@ export default function OrderDetails() {
       try {
         const data = await getClientOrder(id);
         setOrder(data);
-        console.log("order", data);
       } catch (error) {
         console.error("Error fetching order:", error);
       }
@@ -70,27 +69,51 @@ export default function OrderDetails() {
             animate={{ opacity: 1, y: 0 }}
             className="bg-neutral-800 rounded-2xl p-5"
           >
-            <h2 className="text-lg font-medium mb-3 text-amber-400">
-              Produkty
-            </h2>
+            <h2 className="text-lg font-medium mb-3 text-amber-400">Produkty</h2>
             <div className="space-y-3">
               {order.items.map((item) => (
                 <div
                   key={item.id}
-                  className="flex justify-between items-center border-b border-gray-700 pb-2"
+                  className="flex justify-between items-center border-b border-gray-700 pb-2 relative"
                 >
-                  <div className="text-gray-200">
-                    {item.title}
-                    <span className="text-gray-400 text-sm ml-2">
-                      × {item.quantity}
-                    </span>
+                  <div className="text-gray-200 relative inline-block group">
+                    {/* Назва товару — клікабельна */}
+                    <Link
+                      to={`/product/${item.product_id}`}
+                      className= "hover:text-amber-400 transition font-medium relative z-10"
+                    >
+                      {item.title}
+                    </Link>
+
+                    <span className="text-gray-400 text-sm ml-2">× {item.quantity}</span>
+
+                    {/* Плавно з’являюче прев’ю при наведенні */}
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                      whileHover={{ opacity: 1, scale: 1, y: 0 }}
+                      transition={{ duration: 0.25 }}
+                      className="absolute left-0 top-6 z-50 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-300"
+                    >
+                      <div className="relative bg-neutral-900 border border-amber-600/40 rounded-xl overflow-hidden shadow-xl shadow-black/40">
+                        <img
+                          src={item.image_url}
+                          alt={item.title}
+                          className="w-40 h-40 object-cover opacity-90 transition"
+                        />
+                        <div className="absolute bottom-0 w-full bg-black/60 text-amber-300 text-center py-1 text-sm font-semibold">
+                          {item.product_price} PLN
+                        </div>
+                      </div>
+                    </motion.div>
                   </div>
+
                   <div className="text-amber-400 font-medium">
-                    {item.price} PLN
+                    {item.product_price} PLN
                   </div>
                 </div>
               ))}
             </div>
+
             <div className="text-right mt-4 text-xl font-semibold text-amber-500">
               Razem: {order.total_price} PLN
             </div>

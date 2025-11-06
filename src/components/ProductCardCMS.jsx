@@ -10,7 +10,7 @@ export default function ProductCardCMS({ product, onToggleAvailability, onDelete
   const [currentImage, setCurrentImage] = useState(0);  
   const [showConfirm, setShowConfirm] = useState(false);
   const [toast, setToast] = useState({ show: false, message: "", type: "success" });
-  const images = product.images || [];
+  const images = product.images?.length ? product.images : ["/no_image.png"];
   const Available = product.is_available;
 
   const nextImage = () => {

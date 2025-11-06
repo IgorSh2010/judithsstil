@@ -14,6 +14,7 @@ export function Button({
 
   const variants = {
     default: "bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500",
+    //default: "mt-5 text-center bg-gradient-to-r from-amber-500 to-amber-700 text-black font-semibold py-2 rounded-xl hover:opacity-90 transition",
     outline:
       "border border-gray-300 bg-transparent hover:bg-gray-100 text-gray-800 focus:ring-gray-400",
     ghost: "bg-transparent text-gray-700 hover:bg-gray-100",

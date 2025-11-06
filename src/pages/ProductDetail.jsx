@@ -34,7 +34,7 @@ export default function ProductDetail() {
     );
   }
 
-  const images = product.images?.length ? product.images : ["/placeholder.jpg"];
+  const images = product.images?.length ? product.images : ["/no_image.png"];
   const sizes = product.sizes || ["One Size"];
   const Available = product.is_available;
 

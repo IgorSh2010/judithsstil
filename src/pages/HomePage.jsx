@@ -10,7 +10,6 @@ export default function HomePage() {
   useEffect(() => {
     const fetchProducts = async () => {
       const all = await getProducts()
-      console.log("all---", all)
       setBestsellers(all.data.filter(p => p.is_bestseller))
       setFeatured(all.data.filter(p => p.is_featured))
     }
