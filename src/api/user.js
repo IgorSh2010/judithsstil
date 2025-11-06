@@ -12,7 +12,6 @@ export async function checkToken() {
   });
   return res.ok; // якщо 200 — токен ще дійсний
 }
-
 export async function updateUser(data) {
   const response = await api.post("/users/update", data);
   return response.data;
