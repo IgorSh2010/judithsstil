@@ -12,6 +12,7 @@ export default function OrderDetails() {
     const fetchOrder = async () => {
       try {
         const data = await getClientOrder(id);
+        console.log(data);
         setOrder(data);
       } catch (error) {
         console.error("Error fetching order:", error);
@@ -71,40 +72,42 @@ export default function OrderDetails() {
           >
             <h2 className="text-lg font-medium mb-3 text-amber-400">Produkty</h2>
             <div className="space-y-3">
-              {order.items.map((item) => (
+              {order.items.map((item, index) => (
                 <div
                   key={item.id}
                   className="flex justify-between items-center border-b border-gray-700 pb-2 relative"
                 >
                   <div className="text-gray-200 relative inline-block group">
-                    {/* Назва товару — клікабельна */}
+
+                    <span className="text-amber-500 font-semibold mr-2">
+                      {index + 1}.
+                    </span>
                     <Link
                       to={`/product/${item.product_id}`}
-                      className= "hover:text-amber-400 transition font-medium relative z-10"
+                      className="hover:text-amber-400 transition font-medium relative z-1"
                     >
                       {item.title}
                     </Link>
 
                     <span className="text-gray-400 text-sm ml-2">× {item.quantity}</span>
 
-                    {/* Плавно з’являюче прев’ю при наведенні */}
-                    <motion.div
-                      initial={{ opacity: 0, scale: 0.95, y: 20 }}
-                      whileHover={{ opacity: 1, scale: 1, y: 0 }}
-                      transition={{ duration: 0.25 }}
-                      className="absolute left-0 top-6 z-50 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-300"
-                    >
-                      <div className="relative bg-neutral-900 border border-amber-600/40 rounded-xl overflow-hidden shadow-xl shadow-black/40">
+                    {/* Preview */}
+                    <div className="absolute bottom-full left-auto mb-2 z-20
+                                opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-120
+                                pointer-events-none transition-all duration-300 ease-out">
+                      <div className="relative bg-neutral-900 border border-amber-600/40 
+                                      rounded-xl overflow-hidden shadow-2xl shadow-black/50">
                         <img
-                          src={item.image_url}
+                          src={item.image_url || '/no_image.png'}
                           alt={item.title}
-                          className="w-40 h-40 object-cover opacity-90 transition"
+                          className="w-44 h-44 object-cover opacity-95"
                         />
-                        <div className="absolute bottom-0 w-full bg-black/60 text-amber-300 text-center py-1 text-sm font-semibold">
+                        <div className="absolute bottom-0 w-full bg-black/70 text-amber-300 
+                                        text-center py-1 text-sm font-semibold">
                           {item.product_price} PLN
                         </div>
                       </div>
-                    </motion.div>
+                    </div>
                   </div>
 
                   <div className="text-amber-400 font-medium">

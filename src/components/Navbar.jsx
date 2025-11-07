@@ -18,8 +18,7 @@ export default function Navbar() {
         const token = localStorage.getItem("token");
         if (token) {
         try {          
-          const res = await me(); 
-          console.log(res.user);        
+          const res = await me();     
           setUserMe(res.user);
         } catch (err) {
           console.error(err);
