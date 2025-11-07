@@ -2,13 +2,18 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useCart } from '../contexts/CartActions';
 import { Button } from './ui/Button';
+import Toast from "../components/ui/Toast"
+import { formatPrice } from '../utils/formatPrice';
 
 export default function ProductCard({ product }) {
   const [currentImage, setCurrentImage] = useState(0);
+  const { addToCart } = useCart();
   const Available = product.is_available;
   const images = product.images?.length ? product.images : ["/no_image.png"];
   const sizes = product.sizes || ["XS", "S", "M", "L", "XL", "ONESIZE"];
+  const [toast, setToast] = useState({ show: false, message: "", type: "success" });
 
   const nextImage = () => setCurrentImage((prev) => (prev + 1) % images.length);
   const prevImage = () => setCurrentImage((prev) => (prev - 1 + images.length) % images.length);
@@ -17,6 +22,19 @@ export default function ProductCard({ product }) {
     const swipeThreshold = 50;
     if (info.offset.x < -swipeThreshold) nextImage();
     else if (info.offset.x > swipeThreshold) prevImage();
+  };
+
+  const handleAddToCart = (e) => {
+    e.preventDefault(); // не дає лінку спрацювати, якщо картка клікабельна
+    addToCart({
+      id: product.id,
+      title: product.title,
+      price: product.price,
+      quatity: 1,
+      image_url: product.image_url,
+    });
+    setToast({ show: true, message: `${product.title} dodano do koszyka!`, type: "success" });
+    setTimeout(() => setToast({ show: false, message: "" }), 4000);
   };
 
   return (
@@ -108,7 +126,7 @@ export default function ProductCard({ product }) {
 
           {/* 💰 Ціна */}
           <div className="text-xl font-bold text-[#d4af37] mb-3 mt-auto">
-            {product.price} zł
+            {formatPrice(product.price)}
           </div>
 
           {/* 🛒 Кнопки */}
@@ -116,7 +134,9 @@ export default function ProductCard({ product }) {
             <Button className="w-full sm:w-1/2 px-3 py-2 text-sm border bg-gray-900 text-gray-200 hover:bg-[#d4af37]/20 hover:text-[#d4af37] border-gray-700 hover:border-[#d4af37] rounded-lg transition-all">
               Szczegóły
             </Button>
-            <Button className="w-full sm:w-1/2 px-3 py-2 text-sm bg-[#d4af37] text-black font-semibold rounded-lg hover:bg-[#e6c34d] transition-all">
+            <Button 
+              onClick={handleAddToCart} 
+              className="w-full sm:w-1/2 px-3 py-2 text-sm bg-[#d4af37] text-black font-semibold rounded-lg hover:bg-[#e6c34d] transition-all">
               Dodaj do koszyka
             </Button>
           </div>
@@ -139,6 +159,8 @@ export default function ProductCard({ product }) {
           ))}
         </div>
       )}
+
+      <Toast show={toast.show} message={toast.message} type={toast.type} />
 
     </motion.div>
   );

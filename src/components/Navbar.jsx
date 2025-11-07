@@ -82,10 +82,14 @@ export default function Navbar() {
             <div className="flex items-center gap-4">
               <input className="hidden md:block border rounded px-3 py-1 text-sm" placeholder="Szukaj..." />
               <div className="relative cursor-pointer">
-                <button className="flex items-center gap-2 px-3 py-2 text-sm rounded text-white bg-gray-900 hover:bg-amber-400 hover:text-gray-900 transition">
+                <Link to="/CartPage" className="flex items-center gap-2 px-3 py-2 text-sm rounded text-white bg-gray-900 hover:bg-amber-400 hover:text-gray-900 transition">
                   <ShoppingBag className="w-4 h-4" />
                   <span>Koszyk</span>
-                </button>
+                </Link>
+                {/* <button className="flex items-center gap-2 px-3 py-2 text-sm rounded text-white bg-gray-900 hover:bg-amber-400 hover:text-gray-900 transition">
+                  <ShoppingBag className="w-4 h-4" />
+                  <span>Koszyk</span>
+                </button> */}
 
                 {/* {itemsInCart > 0 && (
                   <span className="absolute -top-1 -right-1 bg-red-700 text-white text-xs w-4 h-4 flex items-center justify-center rounded-full">

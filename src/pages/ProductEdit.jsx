@@ -187,7 +187,7 @@ export default function ProductEdit({onProductUpdated}) {
           <input
             type="number"
             name="price"
-            value={product.price || ""}
+            value= {product.price  || ""}
             onChange={handleChange}
             className="w-full bg-gray-900 text-gray-100 border border-gray-700 rounded-lg p-2 focus:ring-2 focus:ring-[#d4af37]"
           />

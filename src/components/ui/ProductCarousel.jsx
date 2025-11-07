@@ -2,6 +2,7 @@ import { useRef, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { motion } from "framer-motion";
+import { formatPrice } from "../../utils/formatPrice";
 
 export default function ProductCarousel({
   title = "Produkty",
@@ -136,7 +137,7 @@ export default function ProductCarousel({
               <p className="text-sm text-gray-400 line-clamp-2">
                 {product.description}
               </p>
-              <p className="mt-2 text-[#d4af37] font-bold">{product.price} zł</p>
+              <p className="mt-2 text-[#d4af37] font-bold">{formatPrice(product.price)}</p>
             </div>
           </motion.div>
         </Link>   

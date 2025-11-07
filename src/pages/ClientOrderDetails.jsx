@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowLeft, Package, CreditCard, Clock } from "lucide-react";
 import { getClientOrder } from "../api/user";
+import { formatPrice } from "../utils/formatPrice";
 
 export default function OrderDetails() {
   const { id } = useParams();
@@ -104,21 +105,21 @@ export default function OrderDetails() {
                         />
                         <div className="absolute bottom-0 w-full bg-black/70 text-amber-300 
                                         text-center py-1 text-sm font-semibold">
-                          {item.product_price} PLN
+                          {formatPrice(item.product_price)}
                         </div>
                       </div>
                     </div>
                   </div>
 
                   <div className="text-amber-400 font-medium">
-                    {item.product_price} PLN
+                    {formatPrice(item.product_price)}
                   </div>
                 </div>
               ))}
             </div>
 
             <div className="text-right mt-4 text-xl font-semibold text-amber-500">
-              Razem: {order.total_price} PLN
+              Razem: {formatPrice(order.total_price)}
             </div>
           </motion.div>
         </div>

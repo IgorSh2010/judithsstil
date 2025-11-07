@@ -14,9 +14,12 @@ import Settings from './pages/Settings'
 import ProductEdit from './pages/ProductEdit'
 import ClientsOrders from './pages/ClientsOrders'
 import ClientOrderDetail from './pages/ClientOrderDetails'
+import CartPage from './pages/CartPage';
+import { CartProvider } from './contexts/CartActions'
 
 export default function App(){
   return (
+    <CartProvider>
     <Router>          
       <Navbar />        
       <Routes>
@@ -26,6 +29,7 @@ export default function App(){
         <Route path="/AuthPage" element={<AuthPage />} />
         <Route path="/AboutUs" element={<AboutUs />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/CartPage" element={<CartPage />} />
         <Route path="/clientsOrders" element={<ClientsOrders />} />
         <Route path="/clientsOrders/:id" element={<ClientOrderDetail />} />
         <Route path="/admin/products" element={<AdminProtectedRoute><ProductCMS /></AdminProtectedRoute>} />
@@ -35,5 +39,6 @@ export default function App(){
 
       <Footer />
     </Router>
+    </CartProvider>
   )
 }

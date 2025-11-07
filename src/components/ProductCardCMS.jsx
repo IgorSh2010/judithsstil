@@ -5,6 +5,7 @@ import Toast from "./ui/Toast";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, Trash2} from "lucide-react";
 import { delProduct } from "../api/products";
+import formatPrice from "../utils/formatPrice";
 
 export default function ProductCardCMS({ product, onToggleAvailability, onDelete }) {
   const [currentImage, setCurrentImage] = useState(0);  
@@ -138,7 +139,7 @@ export default function ProductCardCMS({ product, onToggleAvailability, onDelete
 
         <div className="mt-3 flex items-center justify-between">
           <span className="text-xl font-bold text-emerald-600">
-            {Number(product.price).toFixed(2)} zł
+            {formatPrice(product.price)}
           </span>
         </div>
 

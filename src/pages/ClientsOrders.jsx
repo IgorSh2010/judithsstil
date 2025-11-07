@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Calendar, Package, CreditCard } from "lucide-react";
 import { getClientOrder } from "../api/user";
+import { formatPrice } from "../utils/formatPrice";
 
 const monthNamesPL = [
   "Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec",
@@ -80,7 +81,7 @@ export default function ClientsOrders() {
                       </div>
                       <div className="flex items-center gap-2">
                         <CreditCard size={16} />
-                        <span>{order.total_price} PLN</span>
+                        <span>{formatPrice(order.total_price)}</span>
                       </div>
                     </div>
 
