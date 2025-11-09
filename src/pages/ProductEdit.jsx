@@ -165,7 +165,7 @@ export default function ProductEdit({onProductUpdated}) {
   return (
     <div className="max-w-4xl mx-auto bg-[#0f0f0f] text-gray-200 p-6 rounded-xl border border-gray-800 shadow-md mt-36 mb-4">
       <h1 className="text-2xl font-bold text-[#d4af37] mb-4">
-        Edycja produktu: {product?.name} (ID: {product?.id})
+        Edycja produktu: {product?.title} (ID: {product?.id})
       </h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -175,7 +175,7 @@ export default function ProductEdit({onProductUpdated}) {
           <input
             type="text"
             name="name"
-            value={product.name || ""}
+            value={product.title || ""}
             onChange={handleChange}
             className="w-full bg-gray-900 text-gray-100 border border-gray-700 rounded-lg p-2 focus:ring-2 focus:ring-[#d4af37]"
           />
