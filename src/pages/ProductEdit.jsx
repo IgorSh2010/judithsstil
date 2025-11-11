@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { getProductByID} from "../api/public";
+import { getProductByID, getCategories } from "../api/public";
 import { updateProduct } from "../api/products";
+import CategorySelect from "../components/ui/CategorySelect";
 import { Button } from "../components/ui/Button";
 import { Plus, Trash2, Upload } from "lucide-react";
 import Toast from "../components/ui/Toast";
@@ -26,6 +27,7 @@ export default function ProductEdit({onProductUpdated}) {
   const fileInputRef = useRef();
   const [product, setProduct] = useState(null);
   const [initialProduct, setInitialProduct] = useState(null);
+  const [availableCategories, setAvailableCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [form, setForm] = useState({  images: [] });
@@ -39,6 +41,19 @@ export default function ProductEdit({onProductUpdated}) {
         form.images?.forEach((file) => URL.revokeObjectURL(file.preview));
       };
     }, [form.images]);
+
+    useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const data = await getCategories(); // запит до бази
+        setAvailableCategories(data.rows.map((c) => c.name)
+                                        .filter((name) => typeof name === "string" && name.trim() !== "")); // якщо бекенд повертає масив об’єктів
+      } catch (err) {
+        console.error("Błąd podczas pobierania kategorii:", err);
+      }
+    };
+    fetchCategories();
+  }, []);
 
     useEffect(() => {
     const fetchProducts = async () => {
@@ -165,7 +180,7 @@ export default function ProductEdit({onProductUpdated}) {
   return (
     <div className="max-w-4xl mx-auto bg-[#0f0f0f] text-gray-200 p-6 rounded-xl border border-gray-800 shadow-md mt-36 mb-4">
       <h1 className="text-2xl font-bold text-[#d4af37] mb-4">
-        Edycja produktu: {product?.title} (ID: {product?.id})
+        Edycja produktu: {product?.name} (ID: {product?.id})
       </h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -175,7 +190,7 @@ export default function ProductEdit({onProductUpdated}) {
           <input
             type="text"
             name="name"
-            value={product.title || ""}
+            value={product.name || ""}
             onChange={handleChange}
             className="w-full bg-gray-900 text-gray-100 border border-gray-700 rounded-lg p-2 focus:ring-2 focus:ring-[#d4af37]"
           />
@@ -196,12 +211,11 @@ export default function ProductEdit({onProductUpdated}) {
         {/* Категорія */}
         <div>
           <label className="block text-sm mb-1 text-gray-400">Kategoria</label>
-          <input
-            type="text"
-            name="category"
-            value={product.category || ""}
-            onChange={handleChange}
-            className="w-full bg-gray-900 text-gray-100 border border-gray-700 rounded-lg p-2 focus:ring-2 focus:ring-[#d4af37]"
+          <CategorySelect
+            value={product.category}
+            onChange={(val) => setProduct((p) => ({ ...p, category: val }))}
+             available={availableCategories}
+             setAvailable={setAvailableCategories}
           />
         </div> 
 
