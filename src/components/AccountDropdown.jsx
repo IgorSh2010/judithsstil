@@ -6,13 +6,13 @@ import {
   MessageSquare,
   //Settings,
   LogOut,
-  LayoutDashboard,
-  BarChart3,
+  //LayoutDashboard,
+  //BarChart3,
   Package,
   Tag,
   Image,
-  Users,
-  DollarSign,
+  //Users,
+  //DollarSign,
 } from "lucide-react";
 
 export default function AccountDropdown({ logout }) {
