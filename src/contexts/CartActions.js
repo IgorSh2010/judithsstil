@@ -11,7 +11,8 @@ export const CartProvider = ({ children }) => {
   //const navigate = useNavigate();
 
   const token = localStorage.getItem("token");
-
+  
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (token) fetchCart();
     else setItems([]); // no token → clear local
