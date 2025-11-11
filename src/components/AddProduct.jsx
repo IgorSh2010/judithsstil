@@ -31,7 +31,10 @@ export default function AddProduct({ onProductAdded }) {
   const fetchCategories = async () => {
     try {
       const data = await getCategories();
-      setAvailableCategories(data.rows.map((c) => c.name));
+      console.log(data.rows);
+      setAvailableCategories(data.rows.map((c) => c.name)
+                                      .filter((name) => typeof name === "string" && name.trim() !== "")); // якщо бекенд повертає масив об’єктів
+      
     } catch (err) {
       console.error("Błąd podczas pobierania kategorii:", err);
     }
@@ -139,9 +142,12 @@ export default function AddProduct({ onProductAdded }) {
             <label className="block text-sm font-medium mb-1 text-gray-400">Kategoria</label>
             <CategorySelect
               value={form.category}
-              onChange={handleChange}
+              onChange={(value) =>
+                          handleChange({ target: { name: "category", value } })
+              }
               className="w-full border border-gray-700 p-2 rounded-lg focus:ring-2 focus:ring-[#d4af37]"
-              categories={availableCategories}
+              available={availableCategories}
+              setAvailable={setAvailableCategories}
             />
           </div>
 
@@ -162,7 +168,7 @@ export default function AddProduct({ onProductAdded }) {
           <div>
             <label className="block text-sm font-medium mb-1 text-gray-400">Rozmiary</label>
             <div className="flex flex-wrap gap-3">
-              {["S", "M", "L", "XL"].map((size) => (
+              {["XS", "S", "M", "L", "XL", "ONESIZE"].map((size) => (
                 <button
                   key={size}
                   type="button"

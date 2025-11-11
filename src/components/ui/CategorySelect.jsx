@@ -9,7 +9,6 @@ export default function CategorySelect({ value, onChange, available, setAvailabl
   const filtered = (available || [])
                 .filter((cat) => typeof cat === "string")
                 .filter((cat) => cat.toLowerCase().includes((value || "").toLowerCase()));
-  console.log("available categories:", value)
 
   const handleKeyDown = (e) => {
     if (!show && (e.key === "ArrowDown" || e.key === "ArrowUp")) {

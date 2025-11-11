@@ -1,40 +1,78 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
+//import { useNavigate } from "react-router-dom";
+import { getCart, addCartItem, removeCartItem, clearCartAPI } from "../api/user"; // we'll define soon
 
 const CartContext = createContext();
-
 export const useCart = () => useContext(CartContext);
 
 export const CartProvider = ({ children }) => {
-  const [items, setItems] = useState(() => {
-    const saved = localStorage.getItem("cart");
-    return saved ? JSON.parse(saved) : [];
-  });
+  const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(false);
+  //const navigate = useNavigate();
+
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
-    localStorage.setItem("cart", JSON.stringify(items));
-  }, [items]);
+    if (token) fetchCart();
+    else setItems([]); // no token → clear local
+  }, [token]);
 
-  const addToCart = (product) => {
-    setItems(prev => {
-      const existing = prev.find(p => p.id === product.id);
-      if (existing) {
-        return prev.map(p => p.id === product.id ? { ...p, quantity: p.quantity + 1 } : p);
-      }
-      return [...prev, { ...product, price: Number(product.price), quantity: 1 }];
-    });
+  const fetchCart = async () => {
+    setLoading(true);
+    try {
+      const data = await getCart(token);
+      setItems(data || []);
+    } catch (err) {
+      console.error("❌ Błąd pobierania koszyka:", err);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const removeFromCart = (id) => setItems(prev => prev.filter(p => p.id !== id));
+  const requireAuth = () => {
+    if (!token) {
+      //navigate("/AuthPage", { state: { message: "Zaloguj się, aby korzystać z koszyka." } });
+      window.location.href = "/";
+      return false;
+    }
+    return true;
+  };
 
-  const clearCart = () => setItems([]);
+  const addToCart = async (product) => {
+    if (!requireAuth()) return;
+    try {
+      const updated = await addCartItem(token, product.id, 1);
+      setItems(updated);
+    } catch (err) {
+      console.error("❌ Błąd dodawania do koszyka:", err);
+    }
+  };
+
+  const removeFromCart = async (id) => {
+    if (!requireAuth()) return;
+    try {
+      const updated = await removeCartItem(token, id);
+      setItems(updated);
+    } catch (err) {
+      console.error("❌ Błąd usuwania z koszyka:", err);
+    }
+  };
+
+  const clearCart = async () => {
+    if (!requireAuth()) return;
+    try {
+      await clearCartAPI(token);
+      setItems([]);
+    } catch (err) {
+      console.error("❌ Błąd czyszczenia koszyka:", err);
+    }
+  };
 
   const total = items.reduce((sum, i) => sum + i.price * i.quantity, 0);
 
   return (
-    <CartContext.Provider value={{ items, addToCart, removeFromCart, clearCart, total }}>
+    <CartContext.Provider value={{ items, addToCart, removeFromCart, clearCart, total, loading }}>
       {children}
     </CartContext.Provider>
   );
 };
-
-//export default CartProvider;

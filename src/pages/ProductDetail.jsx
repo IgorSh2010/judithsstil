@@ -98,7 +98,7 @@ export default function ProductDetail() {
         <h1 className="text-3xl font-bold text-[#d4af37] mb-3">{product.name}</h1>
         <p className="text-gray-400 text-sm mb-1">{product.category}</p>
         <div className="flex items-center justify-between mb-4">
-          <div className="text-2xl font-bold text-[#d4af37]">{formatPrice(product.price)} zł</div>
+          <div className="text-2xl font-bold text-[#d4af37]">{formatPrice(product.price)}</div>
           <div>          
             {product.is_bestseller && (
               <span className="inline-block bg-[#d4af37]/20 border border-[#d4af37] text-[#d4af37] text-xs font-semibold px-3 py-1 rounded-full">

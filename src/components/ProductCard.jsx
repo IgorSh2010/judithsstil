@@ -28,12 +28,12 @@ export default function ProductCard({ product }) {
     e.preventDefault(); // не дає лінку спрацювати, якщо картка клікабельна
     addToCart({
       id: product.id,
-      title: product.title,
+      title: product.name,
       price: product.price,
       quatity: 1,
-      image_url: product.image_url,
+      image_url: product.images[0],
     });
-    setToast({ show: true, message: `${product.title} dodano do koszyka!`, type: "success" });
+    setToast({ show: true, message: `"${product.name}" dodano do koszyka!`, type: "success" });
     setTimeout(() => setToast({ show: false, message: "" }), 4000);
   };
 
@@ -83,6 +83,23 @@ export default function ProductCard({ product }) {
           )}
         </div>
 
+        {/* Thumbnail previews */}
+        {images.length > 1 && (
+          <div className="flex justify-center rounded-sm gap-2 py-1 bg-gray-700">
+            {images.map((img, idx) => (
+              <button
+                key={idx}
+                onClick={(e) => { e.preventDefault(); setCurrentImage(idx)}}
+                className={`w-10 h-10 rounded-md overflow-hidden border-2 transition-all duration-200 ${
+                  idx === currentImage ? "border-emerald-500" : "border-transparent opacity-60 hover:opacity-100"
+                }`}
+              >
+                <img src={img} alt="" className="w-full h-full object-cover" />
+              </button>
+            ))}
+          </div>
+        )}
+
         {/* 💬 Контент */}
         <div className="flex flex-col flex-grow p-4">
           <div className="flex justify-between items-start mb-2">
@@ -131,34 +148,18 @@ export default function ProductCard({ product }) {
 
           {/* 🛒 Кнопки */}
           <div className="flex flex-col sm:flex-row gap-2 mt-auto">
-            <Button className="w-full sm:w-1/2 px-3 py-2 text-sm border bg-gray-900 text-gray-200 hover:bg-[#d4af37]/20 hover:text-[#d4af37] border-gray-700 hover:border-[#d4af37] rounded-lg transition-all">
+            <Button variant="secondary" className="w-full sm:w-1/2">
               Szczegóły
             </Button>
             <Button 
-              onClick={handleAddToCart} 
-              className="w-full sm:w-1/2 px-3 py-2 text-sm bg-[#d4af37] text-black font-semibold rounded-lg hover:bg-[#e6c34d] transition-all">
+              variant="primary" className="w-full sm:w-1/2"
+              onClick={handleAddToCart}>
               Dodaj do koszyka
             </Button>
           </div>
         </div>
       </Link>
-      
-      {/* Thumbnail previews */}
-      {images.length > 1 && (
-        <div className="flex justify-center gap-2 py-3 bg-gray-50">
-          {images.map((img, idx) => (
-            <button
-              key={idx}
-              onClick={() => setCurrentImage(idx)}
-              className={`w-10 h-10 rounded-md overflow-hidden border-2 transition-all duration-200 ${
-                idx === currentImage ? "border-emerald-500" : "border-transparent opacity-60 hover:opacity-100"
-              }`}
-            >
-              <img src={img} alt="" className="w-full h-full object-cover" />
-            </button>
-          ))}
-        </div>
-      )}
+    
 
       <Toast show={toast.show} message={toast.message} type={toast.type} />
 

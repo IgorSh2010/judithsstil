@@ -32,4 +32,36 @@ export const getImage = async () => {
 export const getClientOrder = async (id = "main") => {
   const res = await api.get(`/users/client-order/${id}`);
   return res.data;
-}; 
+};
+
+export const getCart = async (token) => {
+  const res = await api.get("/users/get-cart", {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return res.data;
+};
+
+export const addCartItem = async (token, productID, quantity) => {
+  const res = await api.post(
+    "/users/add-to-cart",
+    { productID, quantity },
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    }
+  );
+  return res.data;
+};
+
+export const removeCartItem = async (token, productID) => {
+  const res = await api.delete(`/users/remove-from-cart/${productID}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return res.data;
+}
+
+export const clearCartAPI = async (token) => {
+  const res = await api.delete(`/users/clear-cart`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return res.data;
+}

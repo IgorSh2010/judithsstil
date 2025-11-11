@@ -1,16 +1,29 @@
 import React from "react";
 import { useCart } from "../contexts/CartActions";
 import { motion, AnimatePresence } from "framer-motion";
+import { Link } from "react-router-dom";
 
 export default function CartPage() {
   const { items, removeFromCart, clearCart, total } = useCart();
 
   if (items.length === 0)
     return (
-      <div className="mt-36 min-h-[60vh] flex flex-col justify-center items-center text-center text-gray-400">
-        <p className="text-xl mb-2">Twój koszyk jest pusty</p>
-        <p className="text-sm text-gray-500">Dodaj produkty, aby kontynuować zakupy</p>
-      </div>
+      <>
+        <div className="mt-36 min-h-[60vh] flex flex-col justify-center items-center text-center text-gray-400">
+          <p className="text-xl mb-2">Twój koszyk jest pusty</p>
+          <p className="text-sm text-gray-500">Dodaj produkty, aby kontynuować zakupy</p>
+        
+
+          <div className="mt-6 inline-block text-sm text-gray-400 hover:text-[#d4af37] transition-all">
+            <Link
+              to="/productsMain"
+              className="mt-6 inline-block text-sm text-gray-400 hover:text-[#d4af37] transition-all"
+            >
+              ← Wróć do listy produktów
+            </Link>
+          </div>
+        </div>
+      </>
     );
 
   return (
@@ -73,6 +86,12 @@ export default function CartPage() {
             </button>
           </div>
         </div>
+        <Link
+          to="/productsMain"
+          className="mt-6 inline-block text-sm text-gray-400 hover:text-[#d4af37] transition-all"
+        >
+          ← Wróć do listy produktów
+        </Link>
       </div>
     </div>
   );
