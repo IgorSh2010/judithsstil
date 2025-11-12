@@ -1,13 +1,13 @@
 import { useState } from "react"
 import { registerUser, loginUser } from "../api/auth"
-import { useNavigate } from "react-router-dom"
+//import { useNavigate } from "react-router-dom"
 import Toast from "../components/ui/Toast"
 
 export default function AuthPage() {
   const [registerData, setRegisterData] = useState({ email: "", password: "", tenant: "judithsstil" })
   const [loginData, setLoginData] = useState({ email: "", password: "", tenant: "judithsstil"  })
   const [toast, setToast] = useState({ show: false, message: "", type: "success" })
-  const navigate = useNavigate()
+  //const navigate = useNavigate()
 
   const handleRegister = async (e) => {
     e.preventDefault()
@@ -27,8 +27,8 @@ export default function AuthPage() {
     const res = await loginUser(loginData)
     if (res.token) {
       localStorage.setItem("token", res.token);
-      navigate("/");
-      //window.location.reload();
+      //navigate("/");
+      window.location.reload();
       setToast({ show: true, message: "✅ Zalogowano pomyślnie!", type: "success" });
       setTimeout(() => setToast({ show: false, message: "" }), 4000);
     } else {

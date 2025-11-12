@@ -33,7 +33,7 @@ export default function App(){
         <Route path="/CartPage" element={<CartPage />} />
         <Route path="/clientsOrders" element={<ClientsOrders />} />
         <Route path="/clientsOrders/:id" element={<ClientOrderDetail />} />
-        {/* <Route path="/admin/orders" element={<AdminProtectedRoute><AdminOrders /></AdminProtectedRoute>} /> */}
+        <Route path="/admin/orders" element={<AdminProtectedRoute><AdminOrders /></AdminProtectedRoute>} />
         <Route path="/admin/products" element={<AdminProtectedRoute><ProductCMS /></AdminProtectedRoute>} />
         <Route path="/admin/settings" element={<AdminProtectedRoute><Settings /></AdminProtectedRoute>} />
         <Route path="/admin/products/:id/edit" element={<AdminProtectedRoute><ProductEdit /></AdminProtectedRoute>} />

@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
-import { getCart, addCartItem, removeCartItem, clearCartAPI } from "../api/user"; // we'll define soon
+import React, { createContext, useContext, useState } from "react";
+import { getCart, addCartItem, removeCartItem, clearCartAPI } from "../api/user";
 
 const CartContext = createContext();
 export const useCart = () => useContext(CartContext);
@@ -11,10 +11,10 @@ export const CartProvider = ({ children }) => {
 
   const token = localStorage.getItem("token");
 
-  useEffect(() => {
+ /*  useEffect(() => {
     fetchCart();
   }, []);
-
+ */
   const fetchCart = async () => {
     setLoading(true);
     try {

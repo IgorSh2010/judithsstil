@@ -10,7 +10,6 @@ export default function AdminOrders() {
   useEffect(() => {
     const fetchOrders = async () => {
       const [statuses, orders] = await Promise.all([getOrderStatuses(), getAdminOrder()]);
-      //orders = await getAdminOrder();
       setOrders(orders);
       setStatuses(statuses);
     };
