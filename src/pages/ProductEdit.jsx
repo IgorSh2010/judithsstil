@@ -344,7 +344,7 @@ export default function ProductEdit({onProductUpdated}) {
         <div className="flex  gap-3 mt-6">              
           <Button
             onClick={() => navigate(-1)}
-            className="bg-gray-800 border border-gray-700 text-gray-300 hover:bg-gray-700 rounded-lg px-4 py-2 transition"
+            variant="secondary"
           >
             Anuluj
           </Button>
@@ -352,7 +352,7 @@ export default function ProductEdit({onProductUpdated}) {
           <Button
             onClick={handleSave}
             disabled={saving}
-            className="gap-2 bg-[#d4af37] text-black font-semibold hover:bg-[#e6c34d] rounded-lg px-5 py-2 transition"
+            variant="primary"
           >
             <Upload size={20} /> {saving ? "Zapisywanie..." : "Zapisz zmiany"}
           </Button>

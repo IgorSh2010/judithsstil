@@ -155,7 +155,7 @@ export default function ProductDetail() {
           ))}
         </div>
 
-        <Button version="primary" 
+        <Button variant="primary" 
                 onClick= {handleAddToCart}>
           Dodaj do koszyka
         </Button>

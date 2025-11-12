@@ -70,3 +70,14 @@ export const clearCartAPI = async (token) => {
   });
   return res.data;
 }
+
+//getOrderStatuses, updateOrderStatus
+export const getOrderStatuses = async () => {
+  const res = await api.get(`/admin/order-statuses`);
+  return res.data;
+}
+
+export const updateOrderStatus = async (id, status_id) => {
+  const res = await api.put(`/admin/update-order-status/${id}`, { status_id });
+  return res.data;
+}
