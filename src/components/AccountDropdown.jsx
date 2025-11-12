@@ -62,8 +62,14 @@ export default function AccountDropdown({ logout }) {
           <div className="py-2">
             {/* --- Користувацькі сторінки --- */}
             <DropdownItem href="/profile" icon={<User color="gold"/>}> Dane konta</DropdownItem>
-            <DropdownItem href="/ClientsOrders" icon={<ShoppingBag color="gold"/>}> Moje zamówienia</DropdownItem>
-            <DropdownItem href="/chat" icon={<MessageSquare color="gold"/>}> Czaty zamówień</DropdownItem>
+
+            {/* --- Для користувача --- */}
+            {userMe?.role === "user" && (
+             <>
+              <DropdownItem href="/ClientsOrders" icon={<ShoppingBag color="gold"/>}> Moje zamówienia</DropdownItem>
+              <DropdownItem href="/chat" icon={<MessageSquare color="gold"/>}> Czaty zamówień</DropdownItem>
+            </> 
+            )}
 
             {/* --- Для адміністратора --- */}
             {userMe?.role === "admin" && (
@@ -71,7 +77,7 @@ export default function AccountDropdown({ logout }) {
                 <div className="border-t border-gray-200 my-2" />
                 <span className="block px-4 text-xs text-gray-400 uppercase">CMS</span>
                 <DropdownItem href="/admin/products" icon={<Package color="gold"/>}>Produkty</DropdownItem>
-                <DropdownItem href="/admin/prices" icon={<Tag color="gold"/>}>Ceny</DropdownItem>
+                <DropdownItem href="/admin/orders" icon={<Tag color="gold"/>}>Zamówienia klientów</DropdownItem>
                 <DropdownItem href="/admin/settings" icon={<Image color="gold"/>}>Baner główny i logo</DropdownItem>
 
                 {/* <div className="border-t border-gray-200 my-2" />

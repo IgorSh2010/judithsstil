@@ -4,13 +4,18 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { createPortal } from "react-dom";
 import { getProductByID } from "../api/public";
+import { useCart } from "../contexts/CartActions";
 import { formatPrice } from "../utils/formatPrice";
+import  Toast from "../components/ui/Toast";
+import { Button } from "../components/ui/Button";
 
 export default function ProductDetail() {
   const { id } = useParams();
+  const { addToCart } = useCart();
   const [product, setProduct] = useState(null);
   const [currentImage, setCurrentImage] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [toast, setToast] = useState({ show: false, message: "", type: "success" });
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -46,6 +51,18 @@ export default function ProductDetail() {
     const swipeThreshold = 50;
     if (info.offset.x < -swipeThreshold) nextImage();
     else if (info.offset.x > swipeThreshold) prevImage();
+  };
+
+  const handleAddToCart = (e) => {
+    addToCart({
+      id: product.id,
+      title: product.name,
+      price: product.price,
+      quatity: 1,
+      image_url: product.images[0],
+    });
+    setToast({ show: true, message: `"${product.name}" dodano do koszyka!`, type: "success" });
+    setTimeout(() => setToast({ show: false, message: "" }), 4000);
   };
 
   return (
@@ -138,9 +155,10 @@ export default function ProductDetail() {
           ))}
         </div>
 
-        <button className="px-6 py-3 bg-[#d4af37] text-black rounded-lg font-semibold hover:bg-[#e6c34d] transition-all">
+        <Button version="primary" 
+                onClick= {handleAddToCart}>
           Dodaj do koszyka
-        </button>
+        </Button>
 
         <Link
           to="/productsMain"
@@ -213,7 +231,9 @@ export default function ProductDetail() {
             )}
           </div>,
           document.body
-        )}
+        )} 
+
+        <Toast show={toast.show} message={toast.message} type={toast.type} />       
     </div>
   );
 }

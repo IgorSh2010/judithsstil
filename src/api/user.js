@@ -34,17 +34,22 @@ export const getClientOrder = async (id = "main") => {
   return res.data;
 };
 
+export const getAdminOrder = async (id = "main") => {
+  const res = await api.get(`/admin/order/${id}`);
+  return res.data;
+};
+
 export const getCart = async (token) => {
-  const res = await api.get("/users/get-cart", {
+  const res = await api.get("/users/cart", {
     headers: { Authorization: `Bearer ${token}` },
   });
   return res.data;
 };
 
-export const addCartItem = async (token, productID, quantity) => {
+export const addCartItem = async (token, productID, quantity, price) => {
   const res = await api.post(
-    "/users/add-to-cart",
-    { productID, quantity },
+    "/users/cart",
+    { productID, quantity, price },
     {
       headers: { Authorization: `Bearer ${token}` },
     }
@@ -60,7 +65,7 @@ export const removeCartItem = async (token, productID) => {
 }
 
 export const clearCartAPI = async (token) => {
-  const res = await api.delete(`/users/clear-cart`, {
+  const res = await api.delete(`/users/clearCart`, {
     headers: { Authorization: `Bearer ${token}` },
   });
   return res.data;

@@ -102,7 +102,7 @@ export default function ProductCarousel({
       {/* Карусель */}
       <motion.div
         ref={containerRef}
-        className="flex gap-4 overflow-x-auto scrollbar-hide scroll-smooth select-none flex-col justify-between h-[380px] p-3"
+        className="flex flex-row gap-4 overflow-x-auto scrollbar-hide scroll-smooth select-none h-[380px] p-3"
       >
         {products.map((product) => (
           <Link to={`/product/${product.id}`}
