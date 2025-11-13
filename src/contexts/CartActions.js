@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { getCart, addCartItem, removeCartItem, clearCartAPI } from "../api/user";
 
 const CartContext = createContext();
@@ -11,14 +11,18 @@ export const CartProvider = ({ children }) => {
 
   const token = localStorage.getItem("token");
 
- /*  useEffect(() => {
+  useEffect(() => {
+    if (!token) {
+      setLoading(false);
+      return; // не викликаємо fetchCart, якщо користувач не авторизований
+    }
     fetchCart();
-  }, []);
- */
+  }, [token]);
+
   const fetchCart = async () => {
     setLoading(true);
     try {
-      const data = await getCart(token);
+      const data = await getCart();
       setTotal(data.amount || 0);
       setItems(data.items || []);
     } catch (err) {

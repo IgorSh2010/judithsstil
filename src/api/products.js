@@ -26,7 +26,6 @@ export async function updateProduct(changedFields, id) {
     if (changedFields.removedImages && changedFields.removedImages.length > 0) {
       formData.append("removedImages", JSON.stringify(changedFields.removedImages));
     }
-    
     const res = await api.put(`/products/update/${id}`, formData, {
                           headers: { "Content-Type": "multipart/form-data" },
                         });

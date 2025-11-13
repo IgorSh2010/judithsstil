@@ -39,7 +39,8 @@ export const getAdminOrder = async (id = "main") => {
   return res.data;
 };
 
-export const getCart = async (token) => {
+export const getCart = async () => {
+  const token = localStorage.getItem("token");
   const res = await api.get("/users/cart", {
     headers: { Authorization: `Bearer ${token}` },
   });

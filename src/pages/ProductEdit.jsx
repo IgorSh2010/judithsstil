@@ -12,7 +12,6 @@ function getChangedFields(original, updated) {
   for (const key in updated) {
     const originalValue = original[key];
     const newValue = updated[key];
-
     // Якщо значення змінилось
     if (JSON.stringify(originalValue) !== JSON.stringify(newValue)) {
       changes[key] = newValue;
@@ -152,7 +151,7 @@ export default function ProductEdit({onProductUpdated}) {
   }
     setSaving(true);
     try {
-      console.log("changedFields", changedFields)
+     // console.log("changedFields", changedFields)
       const res = await updateProduct(changedFields, product.id);
          if (res.message !== "") {
             setToast({ show: true, message: "✅ Produkt został zaktualizowany!", type: "success" });
