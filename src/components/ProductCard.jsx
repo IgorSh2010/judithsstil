@@ -5,7 +5,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useCart } from '../contexts/CartActions';
 import { Button } from './ui/Button';
 import Toast from "../components/ui/Toast"
-import { formatPrice } from '../utils/formatPrice';
+import { formatPrice } from '../utils/formats';
 
 export default function ProductCard({ product }) {
   const [currentImage, setCurrentImage] = useState(0);

@@ -1,4 +1,4 @@
-import { formatPrice } from "../utils/formatPrice";
+import { formatPrice } from "../utils/formats";
 import { useCart } from "../contexts/CartActions";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from '../components/ui/Button';

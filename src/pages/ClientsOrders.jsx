@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Calendar, Package, CreditCard } from "lucide-react";
 import { getClientOrder } from "../api/user";
-import { formatPrice } from "../utils/formatPrice";
+import { formatPrice } from "../utils/formats";
 
 const monthNamesPL = [
   "Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec",

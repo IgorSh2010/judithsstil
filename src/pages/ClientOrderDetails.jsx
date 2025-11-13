@@ -3,7 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowLeft, Package, CreditCard, Clock } from "lucide-react";
 import { getClientOrder } from "../api/user";
-import { formatPrice } from "../utils/formatPrice";
+import { formatPrice } from "../utils/formats";
 
 export default function OrderDetails() {
   const { id } = useParams();

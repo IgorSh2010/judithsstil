@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { getAdminOrder, getOrderStatuses, updateOrderStatus } from "../api/user";
-import { formatPrice } from "../utils/formatPrice";
+import { formatPrice, formatDate } from "../utils/formats";
 
 export default function AdminOrders() {
   const [orders, setOrders] = useState([]);
@@ -12,6 +12,8 @@ export default function AdminOrders() {
       const [statuses, orders] = await Promise.all([getOrderStatuses(), getAdminOrder()]);
       setOrders(orders);
       setStatuses(statuses);
+      console.log('orders', orders);
+      console.log('statuses', statuses);
     };
     fetchOrders();
   }, []);
@@ -57,22 +59,28 @@ export default function AdminOrders() {
           <table className="w-full table-auto border-collapse text-gray-300">
             <thead>
               <tr className="bg-gray-900/50 text-gray-400 uppercase text-sm tracking-wide">
-                <th className="py-3 px-4 text-left">ID zamówienia</th>
+                <th className="py-3 px-4 text-left w-11">
+                  <div>ID</div>
+                </th>
                 <th className="py-3 px-4 text-left">Klient</th>
                 <th className="py-3 px-4 text-left">Suma</th>
                 <th className="py-3 px-4 text-left">Status</th>
-                <th className="py-3 px-4 text-left">Metoda płatności</th>
+                <th className="py-3 px-4 text-left">Płatność</th>
+                <th className="py-3 px-4 text-left">Data zamówienia</th>
                 <th className="py-3 px-4 text-left">Działania</th>
               </tr>
             </thead>
             <tbody>
               {orders.map((o) => {
                 const currentStatus = statuses.find((s) => s.id === o.status_id);
+                return (                
                 <tr
                   key={o.id}
-                  className={`${getRowColor(currentStatus?.name)} border-b border-gray-800 hover:brightness-110 transition`}
+                  className={`${getRowColor(currentStatus?.code)} border-b border-gray-800 hover:brightness-110 transition`}
                 >
-                  <td className="py-3 px-4 font-medium text-gold">{o.id}</td>
+                  <td className="py-3 px-4">
+                    <div className="text-gold font-medium">{o.id}</div>
+                  </td>
                   <td className="py-3 px-4">
                     <div className="text-gray-200 font-medium">{o.username}</div>
                     <div className="text-gray-500 text-sm italic">{o.email}</div>
@@ -89,16 +97,23 @@ export default function AdminOrders() {
                       >
                         {statuses.map((s) => (
                           <option key={s.id} value={s.id}>
-                            {s.name}
+                            {s.label}
                           </option>
                         ))}
                       </select>
                     </td>
-                  <td className="py-3 px-4 text-gray-300">
-                    {o.payment_method || "—"}
+                  <td className="py-3 px-4">
+                    <div className="text-gray-300 uppercase font-medium">{o.payment_method}</div>
+                    <div className="text-gray-500 text-sm italic">Data płatności: {formatDate(o.payment_date)}</div>
+                    <div className="text-gray-500 text-xs italic">ID transakcji: {o.payment_external_id}</div>
+                  </td>
+                  <td className="py-3 px-4">
+                    <div className="text-gray-200 font-medium">{formatDate(o.order_date)}</div> 
+                    <div className="text-gray-500 text-sm italic">(zaktualizowane: {formatDate(o.order_updated_at)})</div>
                   </td>
                   <td className="py-3 px-4">
                     {/* Можна додати кнопки дій: np. podgląd, edytuj */}
+                    <div className="flex flex-col gap-2">
                     <button
                         onClick={() => saveStatusChange(o.id)}
                         className="text-sm font-medium text-black bg-amber-400 hover:bg-gold transition px-3 py-1 rounded-md shadow-md"
@@ -108,9 +123,12 @@ export default function AdminOrders() {
                     <button className="text-sm text-amber-400 hover:text-gold font-medium transition">
                       Szczegóły
                     </button>
+                    </div>
                   </td>
                 </tr>
+                );
               })}
+
               {orders.length === 0 && (
                 <tr>
                   <td colSpan={6} className="py-6 text-center text-gray-500">

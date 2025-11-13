@@ -5,7 +5,7 @@ import Toast from "./ui/Toast";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, Trash2} from "lucide-react";
 import { delProduct } from "../api/products";
-import formatPrice from "../utils/formatPrice";
+import {formatPrice } from "../utils/formats";
 
 export default function ProductCardCMS({ product, onToggleAvailability, onDelete }) {
   const [currentImage, setCurrentImage] = useState(0);  

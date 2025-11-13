@@ -2,7 +2,7 @@ import { useRef, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { motion } from "framer-motion";
-import { formatPrice } from "../../utils/formatPrice";
+import { formatPrice } from "../../utils/formats";
 
 export default function ProductCarousel({
   title = "Produkty",

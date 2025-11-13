@@ -5,7 +5,7 @@ import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { createPortal } from "react-dom";
 import { getProductByID } from "../api/public";
 import { useCart } from "../contexts/CartActions";
-import { formatPrice } from "../utils/formatPrice";
+import { formatPrice } from "../utils/formats";
 import  Toast from "../components/ui/Toast";
 import { Button } from "../components/ui/Button";
 
