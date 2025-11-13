@@ -82,8 +82,6 @@ export default function AddProduct({ onProductAdded }) {
     for (const key in form) {
       if (key === "images") {
         for (let img of form.images) formData.append("images", img);
-      } else if (key === "sizes") {
-        formData.append("sizes", JSON.stringify(form.sizes));
       } else {
         formData.append(key, form[key]);
       }
