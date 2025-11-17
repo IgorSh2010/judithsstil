@@ -128,7 +128,7 @@ export default function OrderDetails() {
           <Link
             to={`/chats/${order.id}`}
             className="inline-block  mt-4 bg-amber-600 hover:bg-amber-500
-                      text-neutral-900 font-semibold px-4 py-2 rounded-xl 
+                      hover:text-neutral-900  text-gray-200 font-semibold px-4 py-2 rounded-xl 
                       transition shadow-md shadow-amber-900/40"
           >
             Przejdź do rozmowy
@@ -139,7 +139,7 @@ export default function OrderDetails() {
           <Link
             to={`/payments/start/${order.id}`}
             className="inline-block  mt-4 bg-amber-600 hover:bg-amber-500
-                      text-neutral-900 font-semibold px-4 py-2 rounded-xl 
+                      hover:text-neutral-900  text-gray-200 font-semibold px-4 py-2 rounded-xl 
                       transition shadow-md shadow-amber-900/40"
           >
             Przejdź do opłaty

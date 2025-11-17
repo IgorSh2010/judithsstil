@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getAdminOrder, getOrderStatuses, updateOrderStatus } from "../api/user";
 import { formatPrice, formatDate } from "../utils/formats";
-import { Button } from "../components/ui/Button";
 
 export default function AdminOrders() {
   const [orders, setOrders] = useState([]);
@@ -114,12 +113,7 @@ export default function AdminOrders() {
                   <td className="py-3 px-4">
                     {/* Можна додати кнопки дій: np. podgląd, edytuj */}
                     <div className="flex flex-col gap-2">
-                    {/* <Button
-                        variant="primary"
-                        onClick={() => saveStatusChange(o.id)}
-                    >
-                      Zapisz zmiany
-                    </Button> */}
+                    
                     <Link
                       to={`/admin/orders/${o.id}`}
                       className="text-sm text-center text-amber-400 hover:text-gold font-medium transition"
