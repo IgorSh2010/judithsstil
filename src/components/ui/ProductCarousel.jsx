@@ -116,7 +116,7 @@ export default function ProductCarousel({
             <div className="relative">
               <img
                 src={product.images?.[0]}
-                alt={product.title}
+                alt={product.name}
                 className="h-48 w-full object-cover"
               />
               {product.is_bestseller && (
@@ -131,9 +131,9 @@ export default function ProductCarousel({
               )}
             </div>
             <div className="p-4">
-              <h3 className="text-lg font-semibold truncate">
-                {product.title}
-              </h3>
+              <p className="text-lg font-semibold truncate">
+                {product.name}
+              </p>
               <p className="text-sm text-gray-400 line-clamp-2">
                 {product.description}
               </p>
