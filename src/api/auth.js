@@ -8,6 +8,7 @@ export async function registerUser(data) {
   localStorage.setItem("token", resData.token);
   return resData;
 }
+
 export async function loginUser(loginData) {
     try {
     const { data } = await api.post("/auth/login", {
@@ -21,7 +22,6 @@ export async function loginUser(loginData) {
     });
 
     localStorage.setItem("token", data.token);
-
     return data;
   } catch (error) {
     console.error("❌ loginUser error:", error);

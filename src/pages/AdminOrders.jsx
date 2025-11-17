@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { getAdminOrder, getOrderStatuses, updateOrderStatus } from "../api/user";
 import { formatPrice, formatDate } from "../utils/formats";
+import { Button } from "../components/ui/Button";
 
 export default function AdminOrders() {
   const [orders, setOrders] = useState([]);
@@ -12,8 +14,6 @@ export default function AdminOrders() {
       const [statuses, orders] = await Promise.all([getOrderStatuses(), getAdminOrder()]);
       setOrders(orders);
       setStatuses(statuses);
-      console.log('orders', orders);
-      console.log('statuses', statuses);
     };
     fetchOrders();
   }, []);
@@ -67,7 +67,7 @@ export default function AdminOrders() {
                 <th className="py-3 px-4 text-left">Status</th>
                 <th className="py-3 px-4 text-left">Płatność</th>
                 <th className="py-3 px-4 text-left">Data zamówienia</th>
-                <th className="py-3 px-4 text-left">Działania</th>
+                <th className="py-3 px-4 text-left"></th>
               </tr>
             </thead>
             <tbody>
@@ -114,15 +114,18 @@ export default function AdminOrders() {
                   <td className="py-3 px-4">
                     {/* Можна додати кнопки дій: np. podgląd, edytuj */}
                     <div className="flex flex-col gap-2">
-                    <button
+                    {/* <Button
+                        variant="primary"
                         onClick={() => saveStatusChange(o.id)}
-                        className="text-sm font-medium text-black bg-amber-400 hover:bg-gold transition px-3 py-1 rounded-md shadow-md"
-                      >
-                        Zapisz zmiany
-                      </button>
-                    <button className="text-sm text-amber-400 hover:text-gold font-medium transition">
+                    >
+                      Zapisz zmiany
+                    </Button> */}
+                    <Link
+                      to={`/admin/orders/${o.id}`}
+                      className="text-sm text-center text-amber-400 hover:text-gold font-medium transition"
+                    >
                       Szczegóły
-                    </button>
+                    </Link>
                     </div>
                   </td>
                 </tr>

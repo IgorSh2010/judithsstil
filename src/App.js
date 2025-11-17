@@ -15,6 +15,7 @@ import ProductEdit from './pages/ProductEdit'
 import ClientsOrders from './pages/ClientsOrders'
 import ClientOrderDetail from './pages/ClientOrderDetails'
 import AdminOrders from './pages/AdminOrders'
+import AdminOrderDetails from './pages/AdminOrderDetails'
 import CartPage from './pages/CartPage';
 import { CartProvider } from './contexts/CartActions'
 
@@ -34,6 +35,7 @@ export default function App(){
         <Route path="/clientsOrders" element={<ClientsOrders />} />
         <Route path="/clientsOrders/:id" element={<ClientOrderDetail />} />
         <Route path="/admin/orders" element={<AdminProtectedRoute><AdminOrders /></AdminProtectedRoute>} />
+        <Route path="/admin/orders/:id" element={<AdminProtectedRoute><AdminOrderDetails /></AdminProtectedRoute>} />
         <Route path="/admin/products" element={<AdminProtectedRoute><ProductCMS /></AdminProtectedRoute>} />
         <Route path="/admin/settings" element={<AdminProtectedRoute><Settings /></AdminProtectedRoute>} />
         <Route path="/admin/products/:id/edit" element={<AdminProtectedRoute><ProductEdit /></AdminProtectedRoute>} />

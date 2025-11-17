@@ -6,7 +6,7 @@ const isLocalhost =
     window.location.hostname === "127.0.0.1");
 
 const API_URL = isLocalhost
-  ? "https://129.159.28.206/api"  // ← твій бекенд
+  ? "http://129.159.28.206:5000/api"  // ← твій бекенд
   : "/api";                       // ← продакшн через проксі
 
 //const API_URL = "https://129.159.28.206/api";

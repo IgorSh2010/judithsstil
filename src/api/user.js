@@ -82,3 +82,22 @@ export const updateOrderStatus = async (id, status_id) => {
   const res = await api.put(`/admin/update-order-status/${id}`, { status_id });
   return res.data;
 }
+
+export const getPaymentMethods = async () => {
+  const res = await api.get(`/admin/payment-methods`);
+  return res.data;
+}
+
+export const updateOrderPayment = async (id, parameter, is_date = false) => {
+  const res = await api.put(`/admin/update-order-payment/${id}`, { parameter, is_date });
+  return res.data;
+}
+export const createOrder = async (data) => {
+  const token = localStorage.getItem("token");
+  const res = await api.post(`/users/create-order`, 
+    data,
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  return res.data;
+}

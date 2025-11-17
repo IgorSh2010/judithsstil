@@ -123,6 +123,30 @@ export default function OrderDetails() {
             </div>
           </motion.div>
         </div>
+        
+        <div className="flex flex-col md:flex-row justify-end items-center gap-2">
+          <Link
+            to={`/chats/${order.id}`}
+            className="inline-block  mt-4 bg-amber-600 hover:bg-amber-500
+                      text-neutral-900 font-semibold px-4 py-2 rounded-xl 
+                      transition shadow-md shadow-amber-900/40"
+          >
+            Przejdź do rozmowy
+          </Link>
+
+        {/* {order.payment_id === null && ( */}
+        {false && (
+          <Link
+            to={`/payments/start/${order.id}`}
+            className="inline-block  mt-4 bg-amber-600 hover:bg-amber-500
+                      text-neutral-900 font-semibold px-4 py-2 rounded-xl 
+                      transition shadow-md shadow-amber-900/40"
+          >
+            Przejdź do opłaty
+          </Link>
+        )}
+        </div>
+
       </div>
     </div>
   );

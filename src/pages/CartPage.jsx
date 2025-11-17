@@ -3,9 +3,39 @@ import { useCart } from "../contexts/CartActions";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from '../components/ui/Button';
 import { Link } from "react-router-dom";
+import { createOrder } from "../api/user";
+import { useState } from "react";
+import Toast from "../components/ui/Toast";
 
 export default function CartPage() {
   const { items, removeFromCart, clearCart, total } = useCart();
+  const [toast, setShowToast] = useState({ show: false, message: "", type: "success" });
+
+  const handleCreateOrder = async () => {
+    try {
+      const response = await createOrder(   
+        {
+          items: items.map((item) => ({
+            product_id: item.product_id,
+            quantity: item.quantity,
+            price: item.price,
+          })),
+          total,
+        }
+      );
+      //clearCart();      
+      window.location.href = `/clientsOrders/${response.id}`;
+
+      setShowToast(true, "✅ Zamówienie zostało utworzone!", "success");
+      setTimeout(() => setShowToast(false), 4000);
+
+    } catch (err) {
+      console.error("Błąd tworzenia zamówienia:", err);
+      setShowToast(true, "❌ Błąd tworzenia zamówienia.", "error");
+      setTimeout(() => setShowToast(false), 4000);
+    }
+  };
+
   
   if (items.length === 0)
     return (
@@ -84,9 +114,9 @@ export default function CartPage() {
             </Button>
             <Button 
               variant="primary" className="sm:w-1/2"
-              //onClick={handleAddToCart}
+              onClick={handleCreateOrder}
               >
-              Przejdź do kasy
+              Złóż zamówienie
             </Button>            
           </div>
         </div>
@@ -97,6 +127,8 @@ export default function CartPage() {
           ← Wróć do listy produktów
         </Link>
       </div>
+
+      <Toast show={toast.show} message={toast.message} type={toast.type} />
     </div>
   );
 }
