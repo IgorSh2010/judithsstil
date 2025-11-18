@@ -5,7 +5,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useCart } from '../contexts/CartActions';
 import { Button } from './ui/Button';
 import Toast from "../components/ui/Toast"
-import { formatPrice } from '../utils/formats';
+import { formatPrice, getPreviewImg } from '../utils/formats';
 
 export default function ProductCard({ product }) {
   const [currentImage, setCurrentImage] = useState(0);
@@ -50,8 +50,9 @@ export default function ProductCard({ product }) {
         <div className="relative h-64 w-full overflow-hidden">
           <AnimatePresence mode="wait">
             <motion.img
+              loading="lazy"
               key={images[currentImage]}
-              src={images[currentImage]}
+              src={getPreviewImg(images[currentImage])}
               alt={product.name}
               drag="x"
               dragConstraints={{ left: 0, right: 0 }}
@@ -94,7 +95,7 @@ export default function ProductCard({ product }) {
                   idx === currentImage ? "border-emerald-500" : "border-transparent opacity-60 hover:opacity-100"
                 }`}
               >
-                <img src={img} alt="" className="w-full h-full object-cover" />
+                <img loading="lazy" src={getPreviewImg(img)} alt="" className="w-full h-full object-cover" />
               </button>
             ))}
           </div>

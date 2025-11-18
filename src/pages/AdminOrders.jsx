@@ -33,19 +33,33 @@ export default function AdminOrders() {
   };
 
   const getRowColor = (code) => {
-    switch (code?.toLowerCase()) {
-      case "paid":
-        return "bg-gradient-to-r from-green-900/40 to-emerald-800/30";
-      case "shipped":
-        return "bg-gradient-to-r from-blue-900/40 to-sky-800/30";
-      case "delivered":
-        return "bg-gradient-to-r from-amber-900/40 to-yellow-800/30";
-      case "canceled":
-        return "bg-gradient-to-r from-red-900/40 to-rose-800/30";
-      default:
-        return "bg-gray-900/40";
-    }
-  };
+      switch (code?.toLowerCase()) {
+
+        case "pending": // Nowe
+          return "bg-gradient-to-r from-purple-900/40 to-violet-800/30";
+
+        case "awaiting_payment": // Oczekujące na opłatę
+          return "bg-gradient-to-r from-amber-900/40 to-orange-800/30";
+
+        case "paid": // Opłacone
+          return "bg-gradient-to-r from-green-900/40 to-emerald-800/30";
+
+        case "shipped": // Wysłane
+          return "bg-gradient-to-r from-blue-900/40 to-sky-800/30";
+
+        case "delivered": // Dostarczone
+          return "bg-gradient-to-r from-yellow-900/40 to-amber-800/30";
+
+        case "completed": // Zrealizowane
+          return "bg-gradient-to-r from-teal-900/40 to-cyan-800/30";
+
+        case "cancelled": // Anulowane
+          return "bg-gradient-to-r from-red-900/40 to-rose-800/30";
+
+        default:
+          return "bg-gray-900/40";
+      }
+    };
 
   return (
     <div className="min-h-screen bg-black text-gray-200 pt-36 px-6 md:px-16">
@@ -57,7 +71,7 @@ export default function AdminOrders() {
         <div className="overflow-x-auto">
           <table className="w-full table-auto border-collapse text-gray-300">
             <thead>
-              <tr className="bg-gray-900/50 text-gray-400 uppercase text-sm tracking-wide">
+              <tr className="bg-amber-800 text-gray-100 uppercase text-sm tracking-wide">
                 <th className="py-3 px-4 text-left w-11">
                   <div>ID</div>
                 </th>
@@ -86,20 +100,8 @@ export default function AdminOrders() {
                     <div className="text-gray-500 text-sm italic">{o.phone}</div>
                   </td>
                   <td className="py-3 px-4 text-gray-200 font-semibold">{formatPrice(o.total_price)}</td>
-                  <td className="py-3 px-4">
-                      <select
-                        value={updatedStatus[o.id] || o.status_id}
-                        onChange={(e) =>
-                          handleStatusChange(o.id, Number(e.target.value))
-                        }
-                        className="bg-gray-900 text-gray-200 border border-gray-700 rounded-md px-2 py-1 focus:outline-none focus:ring-2 focus:ring-amber-500 transition"
-                      >
-                        {statuses.map((s) => (
-                          <option key={s.id} value={s.id}>
-                            {s.label}
-                          </option>
-                        ))}
-                      </select>
+                  <td className="py-3 px-4">                      
+                       { currentStatus?.label } 
                     </td>
                   <td className="py-3 px-4">
                     <div className="text-gray-300 uppercase font-medium">{o.payment_method}</div>

@@ -6,6 +6,7 @@ import AccountDropdown from "./AccountDropdown";
 import ProductsDropdown from './ProductsDropdown';
 import { ShoppingBag } from 'lucide-react';
 import { getLogo } from '../api/public';
+import { getPreviewImg } from '../utils/formats';
 
 export default function Navbar() {
     const [logo, setLogo] = useState();
@@ -30,7 +31,7 @@ export default function Navbar() {
         const fetchLogo = async () => {
             try { 
                 const logoUrl = await getLogo();
-                setLogo(logoUrl);
+                setLogo(getPreviewImg(logoUrl));
             } catch (error) {
                 console.error("Error fetching logo:", error);
             }

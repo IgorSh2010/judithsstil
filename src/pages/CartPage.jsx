@@ -1,4 +1,4 @@
-import { formatPrice } from "../utils/formats";
+import { formatPrice, getPreviewImg } from "../utils/formats";
 import { useCart } from "../contexts/CartActions";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from '../components/ui/Button';
@@ -77,7 +77,8 @@ export default function CartPage() {
               >
                 <div className="flex items-center space-x-4">
                   <motion.img
-                    src={item.images[0]}
+                    loading="lazy"
+                    src={getPreviewImg(item.images[0])}
                     alt={item.title}
                     className="w-20 h-20 object-cover rounded-xl border border-gray-800"
                     whileHover={{ scale: 1.05 }}

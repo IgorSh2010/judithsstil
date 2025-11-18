@@ -18,3 +18,11 @@ export const formatDate = (dateString) => {
     minute: "2-digit",
   });
 };
+
+export function getPreviewImg(url) {
+  return url.replace("/upload/", "/upload/w_300,f_auto,q_auto,c_fill/");
+}
+
+export function getPreviewBlurImg(url) {
+  return url.replace("/upload/", "/upload/e_blur:2000,w_40,q_1/");
+}

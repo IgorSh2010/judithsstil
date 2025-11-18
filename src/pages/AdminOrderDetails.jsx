@@ -35,7 +35,7 @@ useEffect(() => {
     if (order) {
         setEditingStatus(order.status_id);
         setEditingPayment(order.payment_method);
-        setEditingTransactionDate(order.payment_date.slice(0, 16));
+        setEditingTransactionDate(order.payment_date?.slice(0, 16));
     }
     }, [order]);
 

@@ -6,6 +6,7 @@ import CategorySelect from "../components/ui/CategorySelect";
 import { Button } from "../components/ui/Button";
 import { Plus, Trash2, Upload } from "lucide-react";
 import Toast from "../components/ui/Toast";
+import { getPreviewImg } from "../utils/formats";
 
 function getChangedFields(original, updated) {
   const changes = {};
@@ -300,7 +301,7 @@ export default function ProductEdit({onProductUpdated}) {
                 className="relative w-28 h-28 border border-gray-700 rounded-lg overflow-hidden group"
               >
                 <img
-                  src={img}
+                  src={getPreviewImg(img)}
                   alt={`Zdjęcie ${i + 1}`}
                   className="object-cover w-full h-full"
                 />

@@ -5,14 +5,15 @@ import Toast from "./ui/Toast";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, Trash2} from "lucide-react";
 import { delProduct } from "../api/products";
-import {formatPrice } from "../utils/formats";
+import {formatPrice, getPreviewImg } from "../utils/formats";
 
-export default function ProductCardCMS({ product, onToggleAvailability, onDelete }) {
+export default function ProductCardCMS({ product, onDelete, view }) {
   const [currentImage, setCurrentImage] = useState(0);  
   const [showConfirm, setShowConfirm] = useState(false);
   const [toast, setToast] = useState({ show: false, message: "", type: "success" });
   const images = product.images?.length ? product.images : ["/no_image.png"];
   const Available = product.is_available;
+  const isList = view === "list";
 
   const nextImage = () => {
     setCurrentImage((prev) => (prev + 1) % images.length);
@@ -56,6 +57,83 @@ export default function ProductCardCMS({ product, onToggleAvailability, onDelete
 
   if (!product) return null;
 
+  if (isList) {
+    return (
+      <div
+        className="
+          flex items-center justify-between
+          p-4 rounded-xl border border-gray-800
+          bg-[#141414]
+          hover:bg-[#181818] transition-colors
+        "
+      >
+        {/* Left block */}
+        <div className="flex items-center gap-4">
+          <img
+            loading="lazy"
+            src={getPreviewImg(images[currentImage]) || product.image}
+            alt={product.title}
+            className="w-16 h-16 rounded-lg object-cover border border-gray-700"
+          />
+
+          <div className="flex flex-col">
+              <span className="font-semibold text-lg text-gray-200">{product.title}</span>
+            <p className="text-gray-400 text-sm line-clamp-2 mt-1">
+              {product.description}
+            </p>
+            <span className="text-sm text-gray-500">{product.category}</span>
+          </div>
+        </div>
+
+        {/* Right block */}
+        <div className="flex items-center gap-4">
+          <div className="flex flex-col items-end gap-1">
+            <span
+              className={`text-sm px-3 py-1 rounded-full ${
+                Available
+                  ? "bg-emerald-500/20 text-emerald-700 border border-emerald-400/50"
+                  : "bg-rose-300/20 text-rose-400 border border-rose-400/50"
+              }`}
+            >
+              {Available ? "Dostępny" : "Niedostępny"}
+            </span>
+            {product.is_bestseller && (
+              <span className="inline-block bg-[#d4af37]/20 border border-[#d4af37] text-[#d4af37] text-sm font-semibold px-3 py-1 rounded-full whitespace-nowrap">
+                ⭐ Bestseller
+              </span>
+            )}
+            {product.is_featured && (
+              <span className="inline-block bg-orange-500/20 border border-orange-500 text-orange-400 text-sm font-semibold px-3 py-1 rounded-full whitespace-nowrap">
+                ✨ Polecany
+              </span>
+            )}            
+          </div>
+        
+          <span className="font-semibold text-lg text-[#d4af37] whitespace-nowrap">
+            {product.price} zł
+          </span>
+
+          <Link
+                to={`/admin/products/${product.id}/edit`}
+                key={product}
+                  className="px-3 py-1 rounded-lg text-sm bg-amber-600/20 text-amber-400 border border-amber-700/40 hover:bg-amber-600/30 transition">
+                Edytuj
+              </Link>
+          <button
+            onClick={() => setShowConfirm(true)}
+            className="
+              px-3 py-1 rounded-lg text-sm
+              bg-red-600/20 text-red-400 border border-red-700/40
+              hover:bg-red-600/30 transition
+            "
+          >
+            Usuń
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.95 }}
@@ -68,8 +146,9 @@ export default function ProductCardCMS({ product, onToggleAvailability, onDelete
       <div className="relative h-64 w-full overflow-hidden">
         <AnimatePresence mode="wait">
           <motion.img
+            loading="lazy"
             key={images[currentImage]}
-            src={images[currentImage]}
+            src={getPreviewImg(images[currentImage])}
             alt={product.name}
             drag="x"
             dragConstraints={{ left: 0, right: 0 }}
@@ -161,9 +240,7 @@ export default function ProductCardCMS({ product, onToggleAvailability, onDelete
                 <Trash2 size={24} className="relative" />
                 Usuń
               </button>
-            </div>
-
-            
+            </div>            
           </div>
       </div>
 
@@ -187,7 +264,7 @@ export default function ProductCardCMS({ product, onToggleAvailability, onDelete
                 idx === currentImage ? "border-emerald-500" : "border-transparent opacity-60 hover:opacity-100"
               }`}
             >
-              <img src={img} alt="" className="w-full h-full object-cover" />
+              <img loading="lazy" src={getPreviewImg(img)} alt="" className="w-full h-full object-cover" />
             </button>
           ))}
         </div>

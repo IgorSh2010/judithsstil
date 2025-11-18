@@ -27,8 +27,8 @@ export async function getCategories() {
   }  
 }
 
-export async function getProducts(category = "all") {
-  const data = await api.get(`/public/getProducts?category=${category}`);
+export async function getProducts(category = "all", page = 1, limit = 18) {  
+  const data = await api.get(`/public/getProducts?category=${category}&page=${page}&limit=${limit}`);
   return data;
 }
 

@@ -9,7 +9,7 @@ export default function Footer(){
             <img src="/logo2.png" alt="Logo" className="h-25" />
         </div>
         <div>            
-          <h4 className="font-semibold mb-2">Judiths stil</h4>
+          <h4 className="font-semibold mb-2">Judith's stil</h4>
           <p className="text-sm text-gray-400">Polska produkcja • Kontakt • FAQ</p>
         </div>
         <div>

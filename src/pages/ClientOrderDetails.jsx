@@ -3,7 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowLeft, Package, CreditCard, Clock } from "lucide-react";
 import { getClientOrder } from "../api/user";
-import { formatPrice } from "../utils/formats";
+import { formatPrice, getPreviewImg } from "../utils/formats";
 
 export default function OrderDetails() {
   const { id } = useParams();
@@ -13,8 +13,8 @@ export default function OrderDetails() {
     const fetchOrder = async () => {
       try {
         const data = await getClientOrder(id);
-        console.log(data);
-        setOrder(data);
+        //console.log(data);
+        setOrder(data.items);
       } catch (error) {
         console.error("Error fetching order:", error);
       }
@@ -99,7 +99,7 @@ export default function OrderDetails() {
                       <div className="relative bg-neutral-900 border border-amber-600/40 
                                       rounded-xl overflow-hidden shadow-2xl shadow-black/50">
                         <img
-                          src={item.image_url || '/no_image.png'}
+                          src={getPreviewImg(item.image_url) || '/no_image.png'}
                           alt={item.title}
                           className="w-44 h-44 object-cover opacity-95"
                         />

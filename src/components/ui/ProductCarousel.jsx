@@ -2,7 +2,7 @@ import { useRef, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { motion } from "framer-motion";
-import { formatPrice } from "../../utils/formats";
+import { formatPrice, getPreviewImg } from "../../utils/formats";
 
 export default function ProductCarousel({
   title = "Produkty",
@@ -115,7 +115,8 @@ export default function ProductCarousel({
           >
             <div className="relative">
               <img
-                src={product.images?.[0]}
+                loading="lazy"
+                src={getPreviewImg(product.images?.[0])}
                 alt={product.name}
                 className="h-48 w-full object-cover"
               />
