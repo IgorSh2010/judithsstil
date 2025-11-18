@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getAdminOrder, getOrderStatuses, updateOrderStatus } from "../api/user";
+import { getAdminOrder, getOrderStatuses } from "../api/user";
 import { formatPrice, formatDate } from "../utils/formats";
 
 export default function AdminOrders() {
   const [orders, setOrders] = useState([]);
   const [statuses, setStatuses] = useState([]);
-  const [updatedStatus, setUpdatedStatus] = useState({});
+  //const [updatedStatus, setUpdatedStatus] = useState({});
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -17,7 +17,7 @@ export default function AdminOrders() {
     fetchOrders();
   }, []);
 
-  const handleStatusChange = async (id, status_id) => {
+  /* const handleStatusChange = async (id, status_id) => {
     setUpdatedStatus((prev) => ({ ...prev, [id]: status_id }));
   };
 
@@ -30,7 +30,7 @@ export default function AdminOrders() {
         o.id === id ? { ...o, status_id: newStatus } : o
       )
     );
-  };
+  }; */
 
   const getRowColor = (code) => {
       switch (code?.toLowerCase()) {
