@@ -114,11 +114,11 @@ export default function ProductCardCMS({ product, onDelete, view }) {
           </span>
 
           <Link
-                to={`/admin/products/${product.id}/edit`}
-                key={product}
-                  className="px-3 py-1 rounded-lg text-sm bg-amber-600/20 text-amber-400 border border-amber-700/40 hover:bg-amber-600/30 transition">
-                Edytuj
-              </Link>
+            to={`/admin/products/${product.id}/edit`}
+            key={product}
+              className="px-3 py-1 rounded-lg text-sm bg-amber-600/20 text-amber-400 border border-amber-700/40 hover:bg-amber-600/30 transition">
+            Edytuj
+          </Link>
           <button
             onClick={() => setShowConfirm(true)}
             className="

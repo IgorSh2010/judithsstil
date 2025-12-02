@@ -60,4 +60,16 @@ api.interceptors.response.use(
   }
 );
 
+// === Interceptor для обробки помилки з бекенду ===
+api.interceptors.response.use(
+    (res) => res,
+    (err) => {
+      const msg =
+        err.response?.data?.error?.message ??
+        "Wystąpił nieoczekiwany błąd";
+
+      return Promise.reject(msg);
+    }
+);
+
 export default api;

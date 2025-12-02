@@ -17,6 +17,8 @@ import ClientOrderDetail from './pages/ClientOrderDetails'
 import AdminOrders from './pages/AdminOrders'
 import AdminOrderDetails from './pages/AdminOrderDetails'
 import CartPage from './pages/CartPage';
+import Conversations from './pages/Conversations'
+import ConversationsDetails from './pages/ConversationsDetails'
 import { CartProvider } from './contexts/CartActions'
 
 export default function App(){
@@ -34,6 +36,8 @@ export default function App(){
         <Route path="/CartPage" element={<CartPage />} />
         <Route path="/clientsOrders" element={<ClientsOrders />} />
         <Route path="/clientsOrders/:id" element={<ClientOrderDetail />} />
+        <Route path="/conversations" element={<Conversations />} />
+        <Route path="/conversations/:id" element={<ConversationsDetails />} />
         <Route path="/admin/orders" element={<AdminProtectedRoute><AdminOrders /></AdminProtectedRoute>} />
         <Route path="/admin/orders/:id" element={<AdminProtectedRoute><AdminOrderDetails /></AdminProtectedRoute>} />
         <Route path="/admin/products" element={<AdminProtectedRoute><ProductCMS /></AdminProtectedRoute>} />

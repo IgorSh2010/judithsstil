@@ -67,7 +67,7 @@ export default function AccountDropdown({ logout }) {
             {userMe?.role === "user" && (
              <>
               <DropdownItem href="/ClientsOrders" icon={<ShoppingBag color="gold"/>}> Moje zamówienia</DropdownItem>
-              <DropdownItem href="/chat" icon={<MessageSquare color="gold"/>}> Czaty zamówień</DropdownItem>
+              <DropdownItem href="/conversations" icon={<MessageSquare color="gold"/>}> Moje wiadomości</DropdownItem>
             </> 
             )}
 
@@ -78,6 +78,7 @@ export default function AccountDropdown({ logout }) {
                 <span className="block px-4 text-xs text-gray-400 uppercase">CMS</span>
                 <DropdownItem href="/admin/products" icon={<Package color="gold"/>}>Produkty</DropdownItem>
                 <DropdownItem href="/admin/orders" icon={<Tag color="gold"/>}>Zamówienia klientów</DropdownItem>
+                <DropdownItem href="/conversations" icon={<MessageSquare color="gold"/>}> Rozmowy z klientami</DropdownItem>
                 <DropdownItem href="/admin/settings" icon={<Image color="gold"/>}>Baner główny i logo</DropdownItem>
 
                 {/* <div className="border-t border-gray-200 my-2" />

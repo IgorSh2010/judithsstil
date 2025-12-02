@@ -101,3 +101,41 @@ export const createOrder = async (data) => {
     });
   return res.data;
 }
+
+export const getConversations = async () => {
+  const token = localStorage.getItem("token");
+  const res = await api.get(`/users/conversations`, 
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  return res.data;
+}
+
+export const fetchMessages = async (id) => {
+  const token = localStorage.getItem("token");
+  const res = await api.get(`/users/messages/${id}`, 
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  //console.log(res);
+  return res.data;
+}
+
+export const sendMessageToConversation = async (id, content) => {
+  const token = localStorage.getItem("token");
+  const res = await api.post(`/users/send-message/${id}`, 
+    { content },
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  return res.data;
+}
+
+export const pollMessages = async (id, lastMessageId) => {
+  const token = localStorage.getItem("token");
+  const res = await api.get(`/users/messages/${id}/poll?lastMessageId=${lastMessageId}`, 
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  return res.data;
+}
