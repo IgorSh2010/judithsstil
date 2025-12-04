@@ -55,13 +55,25 @@ useEffect(() => {
         </Link>
 
         {/* header */}
-        <h1 className="text-4xl font-extrabold text-gold mb-6">
-          Zamówienie #{order.id}
-        </h1>
-        <p className="text-gray-400 text-sm mb-10">
-          utworzono: {formatDate(order.order_date)} •
-          ostatnia aktualizacja: {formatDate(order.order_updated_at)}
-        </p>
+        <div className="flex justify-between items-center">
+        <div>
+          <h1 className="text-4xl font-extrabold text-gold mb-4">
+            Zamówienie #{order.id}
+          </h1>
+          <p className="text-gray-400 text-sm mb-6">
+            utworzono: {formatDate(order.order_date)} •
+            ostatnia aktualizacja: {formatDate(order.order_updated_at)}
+          </p>
+        </div>
+        <Link
+          to={`/conversations/${order.conversation_id}?order_id=${order.id}`}
+          className="inline-block  mt-4 bg-amber-600 hover:bg-amber-500
+                    hover:text-neutral-900  text-gray-200 font-semibold px-4 py-2 rounded-xl 
+                    transition shadow-md shadow-amber-900/40"
+        >
+          Przejdź do rozmowy
+        </Link>
+        </div>
 
         {/* customer block */}
         <div className="bg-gray-900/50 p-6 rounded-xl border border-gray-800 mb-10">
@@ -95,18 +107,27 @@ useEffect(() => {
                     <p className="text-gray-400 text-sm">Metoda płatności</p>
                     <select
                     value={editingPayment}
-                    onChange={(e) => {
+                    onChange={async (e) => {
                         const newMethod = e.target.value;
                         setEditingPayment(newMethod);
-                        updateOrderPayment(order.id, newMethod, false); 
-                        
-                        setToast({
-                        show: true,
-                        message: "Metoda płatności została zmieniona",
-                        type: "success",
-                        });
+                        try {
+                          await updateOrderPayment(order.id, newMethod, false);
 
-                        setTimeout(() => setToast({ show: false, message: "" }), 4000);
+                          setToast({
+                            show: true,
+                            message: "Metoda płatności została zmieniona",
+                            type: "success",
+                          });
+                          
+                        } catch (err) {
+                          setToast({
+                            show: true,
+                            message: "Nie można edytować płatności ze stanów: nowe, oczekujące, anulowane",
+                            type: "error",
+                          });
+                          setEditingPayment(order.payment_method);
+                        }
+                      setTimeout(() => setToast({ show: false, message: "" }), 4000);
                     }}
                     className="bg-gray-800 uppercase border border-gray-700 rounded px-2 py-1 mt-1  text-gray-200 w-full"
                     >
@@ -210,6 +231,8 @@ useEffect(() => {
             Suma: {formatPrice(order.total_price)}
           </div>
         </div>
+
+        
       </div>
 
      <Toast show={toast.show} message={toast.message} type={toast.type} /> 

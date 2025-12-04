@@ -139,3 +139,13 @@ export const pollMessages = async (id, lastMessageId) => {
     });
   return res.data;
 }
+
+export const markReadConversation = async (id) => {
+  const token = localStorage.getItem("token");
+  const res = await api.post(`/users/conversations/${id}/mark-read`, 
+    {},
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  return res.data;
+}
