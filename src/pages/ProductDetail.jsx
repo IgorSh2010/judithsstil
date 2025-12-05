@@ -66,9 +66,10 @@ export default function ProductDetail() {
   };
 
   return (
-    <div className="mt-36 mb-3 max-w-6xl mx-auto px-4 py-16 grid md:grid-cols-2 gap-10 text-gray-100 bg-[#0f0f0f] rounded-2xl border border-gray-800 shadow-lg">
+    <div className="mt-36 mb-3 max-w-6xl mx-auto px-4 py-16 md:grid md:grid-cols-2 gap-10 text-gray-100 bg-[#0f0f0f] rounded-2xl border border-gray-800 shadow-lg">
       {/* Фото */}
-      <div className="relative bg-[#141414] rounded-xl overflow-hidden flex items-center justify-center p-4">
+      <div className="relative bg-[#141414] rounded-xl overflow-hidden flex items-center justify-center p-4 
+            w-full min-h-[320px] sm:min-h-[380px]">
         <AnimatePresence mode="wait">
           <motion.img
             key={images[currentImage]}
@@ -82,7 +83,7 @@ export default function ProductDetail() {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.4 }}
-            className="object-cover w-full h-full rounded-lg cursor-zoom-in"
+            className="object-contain md:object-cover w-full h-full rounded-lg cursor-zoom-in"
           />
         </AnimatePresence>
 
@@ -112,6 +113,27 @@ export default function ProductDetail() {
 
       {/* Опис */}
       <div className="flex flex-col justify-center">
+        
+      {/* Thumbnail previews */}
+      {images.length > 1 && (
+        <div className="flex justify-center gap-2 py-3 bg-[#141414] col-span-2 rounded-xl">
+          {images.map((img, idx) => (
+            <button
+              key={idx}
+              onClick={() => setCurrentImage(idx)}
+              className={`w-12 h-12 rounded-md overflow-hidden border-2 transition-all duration-200 ${
+                idx === currentImage
+                  ? "border-[#d4af37] opacity-100"
+                  : "border-transparent opacity-60 hover:opacity-100"
+              }`}
+            >
+              <img src={img} alt="" className="w-full h-full object-cover" />
+            </button>
+          ))}
+        </div>
+      )}
+
+      
         <h1 className="text-3xl font-bold text-[#d4af37] mb-3">{product.name}</h1>
         <p className="text-gray-400 text-sm mb-1">{product.category}</p>
         <div className="flex items-center justify-between mb-4">
@@ -167,25 +189,6 @@ export default function ProductDetail() {
           ← Wróć do listy produktów
         </Link>
       </div>
-
-      {/* Thumbnail previews */}
-      {images.length > 1 && (
-        <div className="flex justify-center gap-2 py-3 bg-[#141414] col-span-2 rounded-xl">
-          {images.map((img, idx) => (
-            <button
-              key={idx}
-              onClick={() => setCurrentImage(idx)}
-              className={`w-12 h-12 rounded-md overflow-hidden border-2 transition-all duration-200 ${
-                idx === currentImage
-                  ? "border-[#d4af37] opacity-100"
-                  : "border-transparent opacity-60 hover:opacity-100"
-              }`}
-            >
-              <img src={img} alt="" className="w-full h-full object-cover" />
-            </button>
-          ))}
-        </div>
-      )}
 
       {/* FULLSCREEN LIGHTBOX */}
       {isFullscreen &&

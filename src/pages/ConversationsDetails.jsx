@@ -21,9 +21,8 @@ export default function ConversationsDetails() {
                 const msgs = await fetchMessages(id);
 
                 if (!Array.isArray(msgs) || msgs.length === 0) return;
-
+                
                 setMessages(msgs);
-                console.log(msgs);
 
                 if (msgs.length > 0) {
                     lastMessageId.current = msgs[msgs.length - 1].id;

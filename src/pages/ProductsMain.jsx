@@ -8,7 +8,7 @@ export default function ProductsMain() {
   const category = new URLSearchParams(search).get("category") || "all";
 
   return (
-    <div className="min-h-screen bg-neutral-950 text-gray-100 mt-36">
+    <div className="min-h-screen bg-neutral-950 text-gray-100 mt-40 md:mt-36">
       <div className="max-w-full mx-auto px-1 sm:px-4 lg:px-4">
         <h1 className="text-3xl font-bold text-center mb-2 capitalize text-amber-400 pt-2">
           {category === "all" ? "Wszystkie produkty" : category}

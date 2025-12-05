@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { getAdminOrder, getOrderStatuses, updateOrderStatus, getPaymentMethods, updateOrderPayment } from "../api/user";
+import { getAdminOrder, getOrderStatuses, updateOrderStatus, getPaymentMethods, updateOrderPayment, getPDFInvoice } from "../api/user";
 import { formatPrice, formatDate } from "../utils/formats";
 import Toast from "../components/ui/Toast";
+import { Button } from "../components/ui/Button";
 import { ArrowLeft } from "lucide-react";
 
 export default function OrderDetails() {
@@ -56,23 +57,34 @@ useEffect(() => {
 
         {/* header */}
         <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-4xl font-extrabold text-gold mb-4">
-            Zamówienie #{order.id}
-          </h1>
-          <p className="text-gray-400 text-sm mb-6">
-            utworzono: {formatDate(order.order_date)} •
-            ostatnia aktualizacja: {formatDate(order.order_updated_at)}
-          </p>
-        </div>
-        <Link
-          to={`/conversations/${order.conversation_id}?order_id=${order.id}`}
-          className="inline-block  mt-4 bg-amber-600 hover:bg-amber-500
-                    hover:text-neutral-900  text-gray-200 font-semibold px-4 py-2 rounded-xl 
-                    transition shadow-md shadow-amber-900/40"
-        >
-          Przejdź do rozmowy
-        </Link>
+          <div>
+            <h1 className="text-4xl font-extrabold text-gold mb-4">
+              Zamówienie #{order.id}
+            </h1>
+            <p className="text-gray-400 text-sm mb-6">
+              utworzono: {formatDate(order.order_date)} •
+              ostatnia aktualizacja: {formatDate(order.order_updated_at)}
+            </p>
+          </div>
+          <div className="flex flex-col gap-4">
+            <Button
+              type="button"
+              variant="primary"
+              onClick={() => {
+                        window.location.href = `/conversations/${order.conversation_id}?order_id=${order.id}`;
+                      }}
+            >
+              Przejdź do rozmowy
+            </Button>
+
+            <Button
+              type="button"
+              variant="primary"
+              onClick={() => getPDFInvoice(order.id)}
+            >
+              Pobierz fakturę PDF
+            </Button>
+          </div>              
         </div>
 
         {/* customer block */}

@@ -39,6 +39,26 @@ export const getAdminOrder = async (id = "main") => {
   return res.data;
 };
 
+export const getPDFInvoice = async (orderId) => {
+  const res = await api.get(`/admin/orders/${orderId}/invoice`, {
+    responseType: "blob", 
+  });
+
+  const blob = new Blob([res.data], { type: "application/pdf" });
+  const url = window.URL.createObjectURL(blob);
+
+  window.open(url);
+
+  // скачуємо файл
+  /* const a = document.createElement("a");
+  a.href = url;
+  a.download = `faktura-${orderId}.pdf`;
+  a.click(); */
+
+  window.URL.revokeObjectURL(url);
+};
+
+
 export const getCart = async () => {
   const token = localStorage.getItem("token");
   const res = await api.get("/users/cart", {
@@ -144,6 +164,15 @@ export const markReadConversation = async (id) => {
   const token = localStorage.getItem("token");
   const res = await api.post(`/users/conversations/${id}/mark-read`, 
     {},
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  return res.data;
+}
+
+export const getStats = async () => {
+  const token = localStorage.getItem("token");
+  const res = await api.get(`/users/stats`, 
     {
       headers: { Authorization: `Bearer ${token}` },
     });

@@ -86,13 +86,15 @@ export default function ProductCard({ product }) {
 
         {/* Thumbnail previews */}
         {images.length > 1 && (
-          <div className="flex justify-center rounded-sm gap-2 py-1 bg-gray-700">
+          <div className="flex justify-center gap-2 py-2 bg-gray-700/60">
             {images.map((img, idx) => (
               <button
                 key={idx}
-                onClick={(e) => { e.preventDefault(); setCurrentImage(idx)}}
-                className={`w-10 h-10 rounded-md overflow-hidden border-2 transition-all duration-200 ${
-                  idx === currentImage ? "border-emerald-500" : "border-transparent opacity-60 hover:opacity-100"
+                onClick={(e) => { e.preventDefault(); setCurrentImage(idx); }}
+                className={`w-8 h-8 sm:w-10 sm:h-10 rounded-md overflow-hidden border-2 transition-all ${
+                  idx === currentImage
+                    ? "border-emerald-500"
+                    : "border-transparent opacity-60 hover:opacity-100"
                 }`}
               >
                 <img loading="lazy" src={getPreviewImg(img)} alt="" className="w-full h-full object-cover" />
@@ -104,7 +106,7 @@ export default function ProductCard({ product }) {
         {/* 💬 Контент */}
         <div className="flex flex-col flex-grow p-4">
           <div className="flex justify-between items-start mb-2">
-            <h3 className="text-lg font-semibold text-[#d4af37] truncate">{product.name}</h3>
+            <h3 className="text-base sm:text-lg font-semibold text-[#d4af37] truncate">{product.name}</h3>
           </div>          
           <div className="flex justify-end items-center gap-2 mb-2">            
             {product.is_bestseller && (
@@ -149,11 +151,11 @@ export default function ProductCard({ product }) {
 
           {/* 🛒 Кнопки */}
           <div className="flex flex-col sm:flex-row gap-2 mt-auto">
-            <Button variant="secondary" className="w-full sm:w-1/2">
+            <Button variant="secondary" className="w-full sm:w-1/2 py-2">
               Szczegóły
             </Button>
             <Button 
-              variant="primary" className="w-full sm:w-1/2"
+              variant="primary" className="w-full sm:w-1/2 py-2"
               onClick={handleAddToCart}>
               Dodaj do koszyka
             </Button>
