@@ -1,14 +1,14 @@
 export default function AboutUs() {
   return (
-    <div className="flex-1 pt-32"> 
-        <h1 className="text-3xl font-bold text-center py-10">O nas</h1>
-        <div className="max-w-4xl mx-auto px-4 text-gray-700">
+    <div className="flex-1 max-w-7xl mx-auto pt-44 rounded-2xl  bg-gray-800 text-white"> 
+        <h1 className="text-3xl font-bold text-center py-7">O nas</h1>
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 md:px-8">
             <p className="mb-4">
-                Witamy w Judiths stil! Jesteśmy polską marką odzieżową, która łączy elegancję z komfortem na co dzień. 
+                Witamy w Judith's stil! Jesteśmy polską marką odzieżową, która łączy elegancję z komfortem na co dzień. 
                 Nasze ubrania to hołd dla klasyki, wzbogacony o nowoczesne wzory i wysokiej jakości materiały.
             </p>
             <p className="mb-4">
-                W Judiths stil wierzymy, że ubrania powinny nie tylko wyglądać dobrze, ale także sprawiać, że czujesz się wyjątkowo. 
+                W Judith's stil wierzymy, że ubrania powinny nie tylko wyglądać dobrze, ale także sprawiać, że czujesz się wyjątkowo. 
                 Dlatego każdy element naszej kolekcji został starannie zaprojektowany i wykonany z dbałością o najmniejsze detale.
             </p>
             <p className="mb-4">
@@ -19,7 +19,7 @@ export default function AboutUs() {
                 Dziękujemy, że jesteś z nami i zapraszamy do odkrywania naszych kolekcji!
             </p>
         </div>
-        <div className="justify-center items-center text-center bg-gray-100 mt-10 py-6">
+        <div className="justify-center items-center text-center bg-gray-800 mt-10 py-6">
             <p>
                 Szukaj nas w social mediach! 
 

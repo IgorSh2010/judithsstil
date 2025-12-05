@@ -38,14 +38,14 @@ export default function Hero() {
           Nowe wzory, polska produkcja — elegancja i komfort na co dzień.
         </p>
 
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+        {/* <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <button className="px-8 py-3 bg-black/80 hover:bg-black text-white font-semibold rounded-lg transition">
             Zobacz kolekcję
           </button>
           <button className="px-8 py-3 bg-white/90 text-black font-semibold rounded-lg hover:bg-white transition">
             Wyprzedaż
           </button>
-        </div>
+        </div> */}
       </div>
     </section>
   )

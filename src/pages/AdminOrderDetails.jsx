@@ -46,7 +46,7 @@ useEffect(() => {
     );
 
   return (
-    <div className="min-h-screen bg-black text-gray-200 pt-36 pb-4 px-6 md:px-16">
+    <div className="min-h-screen bg-black text-gray-200 pt-44 md:pt-36 pb-4 px-6 md:px-16">
       <div className="max-w-5xl mx-auto">
         <Link
           to="/admin/orders"
@@ -56,7 +56,7 @@ useEffect(() => {
         </Link>
 
         {/* header */}
-        <div className="flex justify-between items-center">
+        <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
           <div>
             <h1 className="text-4xl font-extrabold text-gold mb-4">
               Zamówienie #{order.id}
@@ -66,7 +66,7 @@ useEffect(() => {
               ostatnia aktualizacja: {formatDate(order.order_updated_at)}
             </p>
           </div>
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4 mb-3">
             <Button
               type="button"
               variant="primary"
@@ -112,7 +112,7 @@ useEffect(() => {
               <p className="font-medium">{order.adress || "—"}</p>
             </div>
 
-            <div className="flex flex-col md:flex-row md:items-start md:justify-normal gap-4">
+            <div className="flex flex-col md:flex-row gap-4 w-full">
   
                 {/* payment method */}
                 <div className="flex-1">
@@ -208,7 +208,25 @@ useEffect(() => {
             Produkty w zamówieniu
           </h2>
 
-          <table className="w-full text-gray-300">
+          <div className="md:hidden space-y-4">
+            {order.products.map((p, i) => (
+              <div key={p.id} className="p-4 bg-gray-900/60 rounded-lg border border-gray-800">
+                <div className="text-amber-400 font-semibold mb-1">#{i + 1}</div>
+                <div className="font-medium">{p.title}</div>
+                <div className="text-gray-400 text-sm">
+                  Ilość: <span className="text-gray-200">{p.quantity}</span>
+                </div>
+                <div className="text-gray-400 text-sm">
+                  Cena: <span className="text-gray-200">{formatPrice(p.product_price)}</span>
+                </div>
+                <div className="font-bold text-gold mt-2">
+                  {formatPrice(p.total_item)}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <table className="w-full hidden md:table text-gray-300">
             <thead>
               <tr className="text-gray-500 text-sm uppercase border-b border-gray-800">
                 <th className="py-2 text-left">Nr poz.</th>

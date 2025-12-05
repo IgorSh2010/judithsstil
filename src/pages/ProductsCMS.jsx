@@ -27,20 +27,19 @@ export default function ProductsCMS() {
   }, []);
 
   return (
-    <div className="p-6 md:p-10 max-w-7xl mx-auto mt-36 mb-6 bg-[#0f0f0f] text-gray-200 rounded-2xl border border-gray-800 shadow-lg">
-      {/* Header */}
-      <div className="flex flex-col md:flex-row justify-between items-center mb-4 gap-4">
-        <h1 className="text-3xl font-bold text-[#d4af37] tracking-wide">
+    <div className="p-4 sm:p-6 md:p-10 max-w-7xl mx-auto mt-28 sm:mt-32 mb-6 bg-[#0f0f0f] text-gray-200 rounded-2xl border border-gray-800 shadow-lg">      
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">        
+        <h1 className="text-2xl sm:text-3xl font-bold text-[#d4af37] tracking-wide w-full sm:w-auto text-center sm:text-left">
           Zarządzanie produktami
         </h1>
-        <div className="flex items-center gap-4">
+
+        <div className="flex items-center gap-3 w-full sm:w-auto justify-center sm:justify-end">
           <button
             onClick={() => setShowForm(!showForm)}
-            className={`flex items-center gap-4 px-5 py-2 rounded-lg font-medium transition-all duration-300 border ${
-              showForm
-                ? "bg-gray-800 border-gray-700 text-gray-300 hover:bg-gray-700"
-                : "bg-[#d4af37] border-[#d4af37] text-black hover:bg-[#e6c34d]"
-            }`}
+            className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium text-sm sm:text-base transition-all duration-300 border w-full sm:w-auto justify-center sm:justify-start
+              ${showForm ?
+                "bg-gray-800 border-gray-700 text-gray-300 hover:bg-gray-700" :
+                "bg-[#d4af37] border-[#d4af37] text-black hover:bg-[#e6c34d]"}`}
           >
             {showForm ? (
               <>
@@ -55,15 +54,13 @@ export default function ProductsCMS() {
             )}
           </button>
 
-          {/* View options */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
             <button
               onClick={() => setView("grid")}
-              className={`p-2 rounded-lg border transition ${
-                view === "grid"
-                  ? "bg-[#d4af37] border-[#d4af37] text-black"
-                  : "bg-gray-800 border-gray-700 text-gray-300"
-              }`}
+              className={`p-2 rounded-lg border transition
+                ${view === "grid" ?
+                  "bg-[#d4af37] border-[#d4af37] text-black" :
+                  "bg-gray-800 border-gray-700 text-gray-300"}`}
               title="Widok siatki"
             >
               <LayoutGrid size={18} />
@@ -71,11 +68,10 @@ export default function ProductsCMS() {
 
             <button
               onClick={() => setView("list")}
-              className={`p-2 rounded-lg border transition ${
-                view === "list"
-                  ? "bg-[#d4af37] border-[#d4af37] text-black"
-                  : "bg-gray-800 border-gray-700 text-gray-300"
-              }`}
+              className={`p-2 rounded-lg border transition
+                ${view === "list" ?
+                  "bg-[#d4af37] border-[#d4af37] text-black" :
+                  "bg-gray-800 border-gray-700 text-gray-300"}`}
               title="Widok listy"
             >
               <List size={18} />
@@ -84,7 +80,6 @@ export default function ProductsCMS() {
         </div>
       </div>
 
-      {/* Add product form */}
       <AnimatePresence>
         {showForm && (
           <motion.div
@@ -100,21 +95,18 @@ export default function ProductsCMS() {
         )}
       </AnimatePresence>
 
-      {/* Products grid */}
       {loading ? (
-        <div className="text-center text-gray-500 mt-10 animate-pulse">
-          Ładowanie produktów...
-        </div>
+        <div className="text-center text-gray-500 mt-10 animate-pulse">Ładowanie produktów...</div>
       ) : (
         <motion.div
-            className={
-              view === "grid"
-                ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
-                : "flex flex-col gap-3"
-            }
-            layout
-            transition={{ duration: 0.3 }}
-          >
+          className={
+            view === "grid"
+              ? "grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6"
+              : "flex flex-col gap-3"
+          }
+          layout
+          transition={{ duration: 0.3 }}
+        >
           {products.length > 0 ? (
             <AnimatePresence mode="popLayout">
               {products.map((p, i) => (
@@ -123,18 +115,14 @@ export default function ProductsCMS() {
                   initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.25 }}
-                  className={`
-                                ${view === "list" && i % 2 === 1 ? "bg-[#121212]" : ""}
-                            `}
+                  className={`${view === "list" && i % 2 === 1 ? "bg-[#121212]" : ""}`}
                 >
                   <ProductCard product={p} onDeleted={fetchProducts} view={view} />
                 </motion.div>
               ))}
             </AnimatePresence>
           ) : (
-            <p className="text-gray-400 col-span-full text-center mt-6">
-              Brak produktów w bazie
-            </p>
+            <p className="text-gray-400 col-span-full text-center mt-6">Brak produktów w bazie</p>
           )}
         </motion.div>
       )}
