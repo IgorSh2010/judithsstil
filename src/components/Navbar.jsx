@@ -96,7 +96,7 @@ export default function Navbar() {
               <AccountDropdown user={userMe} logout={logout} mobile/>
             </div>
           ) : (
-            <a className="block py-2" href="/AuthPage">Login</a>
+            <a className="block md:hidden py-2" href="/AuthPage">Login</a>
           )}
 
           <button
