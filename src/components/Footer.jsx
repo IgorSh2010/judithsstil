@@ -10,7 +10,11 @@ export default function Footer(){
         </div>
         <div>            
           <h4 className="font-semibold mb-2">Judith's stil</h4>
-          <p className="text-sm text-gray-400">Polska produkcja • Kontakt • FAQ</p>
+          <p className="text-sm text-gray-400">Polska produkcja • Kontakt • FAQ</p>          
+                  
+          <h4 className="font-semibold mt-6 ">Dokumenty</h4>          
+          <p><a href="/Regulamin" target="_blank" rel="noopener noreferrer" className="text-sm text-gray-400 underline">Regulamin sklepu internetowego Judith's stil</a></p>
+          <p><a href="/PolitykaPrywatnosci" target="_blank" rel="noopener noreferrer" className="text-sm text-gray-400 underline">Polityka prywatnosci</a></p>
         </div>
         <div>
           <h5 className="font-semibold underline mb-2">Kolekcje</h5>

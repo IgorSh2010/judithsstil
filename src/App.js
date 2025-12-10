@@ -19,6 +19,8 @@ import AdminOrderDetails from './pages/AdminOrderDetails'
 import CartPage from './pages/CartPage';
 import Conversations from './pages/Conversations'
 import ConversationsDetails from './pages/ConversationsDetails'
+import Regulamin from './pages/Regulamin'
+import PolitykaPrywatnosci from './pages/PolitykaPrywatnosci'
 import { CartProvider } from './contexts/CartActions'
 
 export default function App(){
@@ -32,6 +34,8 @@ export default function App(){
         <Route path="/product/:id" element={<ProductDetail />} />
         <Route path="/AuthPage" element={<AuthPage />} />
         <Route path="/AboutUs" element={<AboutUs />} />
+        <Route path="/Regulamin" element={<Regulamin />} />
+        <Route path="/PolitykaPrywatnosci" element={<PolitykaPrywatnosci />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/CartPage" element={<CartPage />} />
         <Route path="/clientsOrders" element={<ClientsOrders />} />
