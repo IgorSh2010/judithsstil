@@ -6,9 +6,17 @@ export default function AuthPage() {
   const [registerData, setRegisterData] = useState({ email: "", password: "", tenant: "judithsstil" })
   const [loginData, setLoginData] = useState({ email: "", password: "", tenant: "judithsstil"  })
   const [toast, setToast] = useState({ show: false, message: "", type: "success" })
+  const [acceptTerms, setAcceptTerms] = useState(false)
 
   const handleRegister = async (e) => {
     e.preventDefault()
+
+    if (!acceptTerms) {
+      setToast({show: true, message: "Aby się zarejestrować musisz zaakceptować regulamin i politykę prywatności.", type: "error"});
+      setTimeout(() => setToast({ show: false, message: "" }), 4000)
+      return;
+    }
+
     const res = await registerUser(registerData)
     if (res.error) {
       setToast({ show: true, message: `❌ Błąd rejestracji: ${res.error}`, type: "error" })
@@ -87,6 +95,24 @@ export default function AuthPage() {
               value={registerData.password}
               onChange={(e) => setRegisterData({ ...registerData, password: e.target.value })}
             />
+
+            <div className="flex items-start space-x-2 text-sm text-gray-700">
+              <input
+                type="checkbox"
+                id="rules"
+                className="mt-1"
+                checked={acceptTerms}
+                onChange={(e) => setAcceptTerms(e.target.checked)}
+                required
+              />
+              <label htmlFor="rules">
+                Rejestrując się, akceptujesz{" "}
+                <a href="/regulamin" target="_blank" className="text-pink-600 underline">Regulamin</a>{" "}
+                oraz{" "}
+                <a href="/PolitykaPrywatnosci" target="_blank" className="text-pink-600 underline">Politykę Prywatności</a>.
+              </label>
+            </div>
+
             <button
               type="submit"
               className="w-full bg-black text-white py-2 rounded hover:bg-gray-900 transition"
