@@ -1,12 +1,18 @@
 import { useState } from "react"
 import { registerUser, loginUser } from "../api/auth"
 import Toast from "../components/ui/Toast"
+import { Eye } from "lucide-react"
 
 export default function AuthPage() {
   const [registerData, setRegisterData] = useState({ email: "", password: "", tenant: "judithsstil" })
   const [loginData, setLoginData] = useState({ email: "", password: "", tenant: "judithsstil"  })
+  const [confirm, setConfirm] = useState("");
+  const passwordsMatch = confirm.length === 0 || registerData.password === confirm;
   const [toast, setToast] = useState({ show: false, message: "", type: "success" })
   const [acceptTerms, setAcceptTerms] = useState(false)
+  const [hovered, setHovered] = useState(null); // "login" | "register" | null
+  const [showPassword1, setShowPassword1] = useState(false);
+  const [showPassword2, setShowPassword2] = useState(false);
 
   const handleRegister = async (e) => {
     e.preventDefault()
@@ -45,11 +51,20 @@ export default function AuthPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4 my-36 md:my-0">
-      <div className="max-w-5xl w-full grid md:grid-cols-2 bg-white shadow-lg rounded-2xl overflow-hidden">
-        
+     <div className="mt-16 min-h-screen bg-gray-50 flex items-center justify-center px-4">
+        <div className="relative max-w-5xl w-full flex gap-6">
+
         {/* 🔸 Login Block */}
-        <div className="p-8 flex flex-col justify-center">
+        <div
+          onMouseEnter={() => setHovered("login")}
+          onMouseLeave={() => setHovered(null)}
+          className={`
+            transition-all duration-500 ease-out
+            bg-white rounded-2xl shadow-lg p-8 flex-1
+            ${hovered === "login" && "scale-105 z-10 shadow-2xl"}
+            ${hovered === "register" && "scale-95 opacity-70 -translate-x-4"}
+          `}
+        >
           <div className="text-base font-light">Masz już konto?</div> 
           <h2 className="text-2xl font-bold mb-4">Zaloguj się</h2>
           <form onSubmit={handleLogin} className="space-y-4">
@@ -77,7 +92,16 @@ export default function AuthPage() {
         </div>
 
         {/* 🔸 Register Block */}
-        <div className="bg-gray-100 p-8 flex flex-col justify-center">            
+        <div
+          onMouseEnter={() => setHovered("register")}
+          onMouseLeave={() => setHovered(null)}
+          className={`
+            transition-all duration-500 ease-out
+            bg-white rounded-2xl shadow-lg p-8 flex-1
+            ${hovered === "register" && "scale-105 z-10 shadow-2xl "}
+            ${hovered === "login" && "scale-95 opacity-70 translate-x-4"}
+          `}
+        >
           <div className="text-base font-light">Załóż, jak nie masz...</div>
           <h2 className="text-2xl font-bold mb-4">Zarejestruj się</h2>
           <form onSubmit={handleRegister} className="space-y-4">
@@ -88,13 +112,55 @@ export default function AuthPage() {
               value={registerData.email}
               onChange={(e) => setRegisterData({ ...registerData, email: e.target.value })}
             />
-            <input
-              type="password"
-              placeholder="Hasło"
-              className="w-full border px-3 py-2 rounded"
-              value={registerData.password}
-              onChange={(e) => setRegisterData({ ...registerData, password: e.target.value })}
-            />
+
+            <div className="relative">
+              <input
+                type={showPassword1 ? "text" : "password"}
+                placeholder="Hasło"
+                className="w-full border px-3 py-2 bg-gray-300/30 rounded"
+                value={registerData.password}
+                onChange={(e) => setRegisterData({ ...registerData, password: e.target.value })}
+                required
+              />
+              <button
+                type="button"
+                className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500/50 select-none"
+                onMouseDown={() => setShowPassword1(true)}
+                onMouseUp={() => setShowPassword1(false)}
+                onMouseLeave={() => setShowPassword1(false)}
+                onTouchStart={() => setShowPassword1(true)}
+                onTouchEnd={() => setShowPassword1(false)}
+              >
+                <Eye />
+              </button>
+            </div>
+            <div className="relative">
+              <input
+                type={showPassword2 ? "text" : "password"}
+                placeholder="Hasło (powtórzenie)"
+                className="w-full border px-3 py-2 bg-gray-300/30 rounded"
+                value={confirm}
+                onChange={(e) => setConfirm(e.target.value)}
+                required
+              />
+              <button
+                type="button"
+                className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500/50 select-none"
+                onMouseDown={() => setShowPassword2(true)}
+                onMouseUp={() => setShowPassword2(false)}
+                onMouseLeave={() => setShowPassword2(false)}
+                onTouchStart={() => setShowPassword2(true)}
+                onTouchEnd={() => setShowPassword2(false)}
+              >
+                <Eye />
+              </button>
+            </div>
+
+          {!passwordsMatch && (
+            <p className="text-sm text-red-600">
+              Hasła muszą być identyczne
+            </p>
+          )}
 
             <div className="flex items-start space-x-2 text-sm text-gray-700">
               <input
