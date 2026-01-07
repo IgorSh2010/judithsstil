@@ -11,6 +11,7 @@ export default function AuthPage() {
   const [toast, setToast] = useState({ show: false, message: "", type: "success" })
   const [acceptTerms, setAcceptTerms] = useState(false)
   const [hovered, setHovered] = useState(null); // "login" | "register" | null
+  const [showPassword, setShowPassword] = useState(false);
   const [showPassword1, setShowPassword1] = useState(false);
   const [showPassword2, setShowPassword2] = useState(false);
 
@@ -75,13 +76,26 @@ export default function AuthPage() {
               value={loginData.email}
               onChange={(e) => setLoginData({ ...loginData, email: e.target.value })}
             />
-            <input
-              type="password"
-              placeholder="Hasło"
-              className="w-full border px-3 py-2 rounded"
-              value={loginData.password}
-              onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
-            />
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                placeholder="Hasło"
+                className="w-full border px-3 py-2 rounded bg-gray-300/30"
+                value={loginData.password}
+                onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
+              />
+              <button
+                type="button"
+                className="absolute top-1/2 right-3 text-gray-500/50 transform -translate-y-1/2"
+                onMouseDown={() => setShowPassword(true)}
+                onMouseUp={() => setShowPassword(false)}
+                onMouseLeave={() => setShowPassword(false)}
+                onTouchStart={() => setShowPassword(true)}
+                onTouchEnd={() => setShowPassword(false)}
+              >
+                <Eye />
+              </button>
+            </div>
             <button
               type="submit"
               className="w-full bg-black text-white py-2 rounded hover:bg-gray-900 transition"
