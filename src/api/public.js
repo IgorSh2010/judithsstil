@@ -27,7 +27,7 @@ export async function getCategories() {
   }  
 }
 
-export async function getProducts(category = "all", page = 1, limit = 18, tenant="judithstil") { 
+export async function getProducts(category = "all", page = 1, limit = 18, tenant="judithsstil") { 
   const data = await api.get(`/public/getProducts?category=${category}&page=${page}&limit=${limit}&tenant=${tenant}`);
   return data;
 }
