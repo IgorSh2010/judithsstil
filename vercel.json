@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/apijs/:path*",
-      "destination": "https://129.159.28.206/apijs/:path*"
+      "destination": "http://129.159.28.206:5020/apijs/:path*"
     }
   ]
 }
